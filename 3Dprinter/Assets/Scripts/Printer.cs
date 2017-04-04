@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Printer : MonoBehaviour {
 
+    private GcodeLoader gcodeLoader;
+
     public float DefaultHeadSpeed;
     public float Accuracy;
 
@@ -105,12 +107,19 @@ public class Printer : MonoBehaviour {
         return (param != Gcodes.INVALID_NUMBER);
     }
 
+    void Awake() {
+        gcodeLoader = GameObject.FindObjectOfType<GcodeLoader>();
+    }
+
 	void Start () {
 		
 	}
 	
-	void Update () {
+	void FixedUpdate () {
         Busy = !ValidateProgress();
+        if (!Busy) {
+            NextGcodeCommand(this);
+        }
         if (Busy) {
             Step();
 
