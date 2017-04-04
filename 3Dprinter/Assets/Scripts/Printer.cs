@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Printer : MonoBehaviour {
 
-    public float DefaultHeadSpeed;
+    private GcodeLoader GcodeLoader;
+    private FilamentManager FilamentManager;
+
+    public float MaxHeadSpeed;
     public float Accuracy;
 
     //public bool UseAbsoluteCoordinates;
@@ -24,10 +27,11 @@ public class Printer : MonoBehaviour {
     
     public Vector3 TargetPositionHead;
     public float TargetPositionTable;
-    public float TargetPositionExtruder;
+    public float TargetPositionExtruder=0;
+    public float Thickness;
 
     private float StartTime;
-    private float distanceToMoveHead;
+    private float DistanceToMoveHead;
 
     /// <summary>
     /// 
@@ -43,16 +47,26 @@ public class Printer : MonoBehaviour {
             StartPositionTable = CurrentPositionTable;
             StartPositionExtruder = CurrentPositionExtruder;
             x = ValidateParameter(x) ? x : CurrentPositionHead.x;
-            y = ValidateParameter(y) ? y : CurrentPositionHead.y;
+            y = ValidateParameter(y) ? y : CurrentPositionHead.z;
             TargetPositionHead = new Vector3(x, transform.position.y, y);
             TargetPositionTable = ValidateParameter(z) ? z : CurrentPositionTable;
-            TargetPositionExtruder = ValidateParameter(extrusion) ? extrusion : CurrentPositionExtruder;
-            DesiredSpeed = ValidateParameter(speed) ? speed : DefaultHeadSpeed;
-            DesiredSpeed = DefaultHeadSpeed < DesiredSpeed ? DefaultHeadSpeed : DesiredSpeed;
+            float newTargetPositionExtruder = ValidateParameter(extrusion) ? extrusion : TargetPositionExtruder;
+            float amountExtrudedForLine = newTargetPositionExtruder - TargetPositionExtruder;
+            TargetPositionExtruder = newTargetPositionExtruder;
+            DesiredSpeed = ValidateParameter(speed) ? speed : DesiredSpeed;
+            DesiredSpeed = MaxHeadSpeed < DesiredSpeed ? MaxHeadSpeed : DesiredSpeed;
 
             ArcRadius = 0;
             StartTime = Time.time;
-            distanceToMoveHead = Vector3.Distance(StartPositionHead, TargetPositionHead);
+            DistanceToMoveHead = Vector3.Distance(StartPositionHead, TargetPositionHead);
+            if (DistanceToMoveHead > 0.000001 && amountExtrudedForLine > 0.0000001) {
+                Thickness = 10 * amountExtrudedForLine / DistanceToMoveHead;
+            } else {
+                Thickness = 0.05f;
+            }
+            if(Thickness < 0) {
+                Thickness = 0;
+            }
         }
     }
 
@@ -71,7 +85,7 @@ public class Printer : MonoBehaviour {
     }
 
     public void HomeAllAxis() {
-        Move(0, 0, 0, CurrentPositionExtruder, DefaultHeadSpeed);
+        Move(0, 0, 0, CurrentPositionExtruder, MaxHeadSpeed);
     }
 
     public bool IsBusy() {
@@ -84,14 +98,19 @@ public class Printer : MonoBehaviour {
 
     private void Step() {
         float distanceMoved = (Time.time - StartTime) * DesiredSpeed;
-        float toStep = distanceMoved / distanceToMoveHead;
+        float toStep = distanceMoved / DistanceToMoveHead;
+        if (toStep > 1) { toStep = 1; }
+        Vector3 oldPositionHead = CurrentPositionHead;
         CurrentPositionHead = Vector3.Lerp(StartPositionHead, TargetPositionHead, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
         CurrentPositionTable = Mathf.Lerp(StartPositionTable, TargetPositionTable, toStep);
+        if(Thickness > 0.0001f) {
+            FilamentManager.AddFilament(oldPositionHead, CurrentPositionHead, Thickness);
+        }
     }
 
     private bool ValidateProgress() {
-        float distanceHead = Vector2.Distance(CurrentPositionHead, TargetPositionHead);
+        float distanceHead = Vector3.Distance(CurrentPositionHead, TargetPositionHead);
         float distanceTable = CurrentPositionTable - TargetPositionTable;
         if (-Accuracy < distanceHead && distanceHead < Accuracy) {
             if (-Accuracy < distanceTable && distanceTable < Accuracy) {
@@ -102,22 +121,31 @@ public class Printer : MonoBehaviour {
     }
 
     private bool ValidateParameter(float param) {
-        return (param != Gcodes.INVALID_NUMBER);
+        bool valid = ((int)param != (int)Gcodes.INVALID_NUMBER);
+        return valid;
+    }
+
+    void Awake() {
+        GcodeLoader = GameObject.FindObjectOfType<GcodeLoader>();
+        FilamentManager = GameObject.FindObjectOfType<FilamentManager>();
     }
 
 	void Start () {
 		
 	}
 	
-	void Update () {
+	void FixedUpdate () {
         Busy = !ValidateProgress();
-        if (Busy) {
+        if (!Busy) {
+            GcodeLoader.NextGcodeCommand(this);
+        }
+        else {
             Step();
 
-            Debug.Log("position Head: " + CurrentPositionHead);
+            /*Debug.Log("position Head: " + CurrentPositionHead);
             Debug.Log("position Extruder: " + CurrentPositionExtruder);
             Debug.Log("position Table: " + CurrentPositionTable);
-            Debug.Log("------------------");
+            Debug.Log("------------------");*/
         }
 	}
 }

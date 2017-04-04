@@ -21,42 +21,36 @@ public class GcodeLoader : MonoBehaviour {
         commandoIndex = 0;
     }
 	
-	void FixedUpdate () {
+	public void NextGcodeCommand(Printer printer) {
         if (modelLoaded && forwardPassGcode) {
-            long begin = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            long current = begin;
-            long frameCalcTime = (long)(Time.fixedDeltaTime * 1000 * 4 / 4);
+            if (commandoIndex == 0) { Debug.Log("GCODE_PASS##############################"); Debug.Log("START_PASS_GCODE!!!"); }
+            if (commandoIndex >= commands.Count) {
+                return;
+            }
 
-            if (commandoIndex == 0) { Debug.Log("GCODE_PASS##############################"); Debug.Log("START_PASS_GCODE!!!");  }
-            do {
-                if (commandoIndex >= commands.Count) {
-                    break;
-                }
-
-                SendCommando(commands[commandoIndex]);
-                commandoIndex++;
-                if (commandoIndex >= commands.Count) { Debug.Log("DONE_PASS_CGODE!!!"); Debug.Log("GCODE_PASS##############################"); }
-
-                current = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            } while (current - begin < frameCalcTime);
+            SendCommando(commands[commandoIndex], printer);
+            commandoIndex++;
+            if (commandoIndex >= commands.Count) { Debug.Log("DONE_PASS_CGODE!!!"); Debug.Log("GCODE_PASS##############################"); }
         }
-	}
+    }
 
     static List<WriteTuple<char, float>> fullParameters = new List<WriteTuple<char, float>>() { Gcodes.X, Gcodes.Y, Gcodes.Z, Gcodes.E, Gcodes.F };
     static List<WriteTuple<char, float>> positionParameters = new List<WriteTuple<char, float>>() { Gcodes.X, Gcodes.Y, Gcodes.Z };
     static List<WriteTuple<char, float>> setParameters = new List<WriteTuple<char, float>>() { Gcodes.S };
-    private void SendCommando(List<Tuple<char, float>> commando) {
-        string startCommand = commando[0].Value.ToString() + (int)commando[0].Key;
+    private void SendCommando(List<Tuple<char, float>> commando, Printer printer) {
+        string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
         switch (startCommand) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
                 PopulateSettings(commando, fullParameters);
+                printer.Move(Gcodes.X.Value, Gcodes.Y.Value, Gcodes.Z.Value, Gcodes.E.Value, Gcodes.F.Value);
                 break;
             case Gcodes.HOME_AXIS:
                 PopulateSettings(commando, positionParameters);
+                printer.HomeAllAxis();
                 break;
             case Gcodes.SET_ABOSLUTE:
-                // None
+                //printer.HomeAllAxis();
                 break;
             case Gcodes.SET_CURRENT_POS:
                 PopulateSettings(commando, fullParameters);
