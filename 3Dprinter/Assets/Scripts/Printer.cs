@@ -135,18 +135,16 @@ public class Printer : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        for (int i = 0; i < 4; i++) {
-            Busy = !ValidateProgress();
-            if (!Busy) {
-                GcodeLoader.NextGcodeCommand(this);
-            } else {
-                Step();
+        Busy = !ValidateProgress();
+        if (!Busy) {
+            GcodeLoader.NextGcodeCommand(this);
+        } else {
+            Step();
 
-                /*Debug.Log("position Head: " + CurrentPositionHead);
-                Debug.Log("position Extruder: " + CurrentPositionExtruder);
-                Debug.Log("position Table: " + CurrentPositionTable);
-                Debug.Log("------------------");*/
-            }
+            /*Debug.Log("position Head: " + CurrentPositionHead);
+            Debug.Log("position Extruder: " + CurrentPositionExtruder);
+            Debug.Log("position Table: " + CurrentPositionTable);
+            Debug.Log("------------------");*/
         }
 	}
 }
