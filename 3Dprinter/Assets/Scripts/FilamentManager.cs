@@ -12,7 +12,7 @@ public class FilamentManager : MonoBehaviour {
     private int MaxVerticesPerMesh = 65536;
     private int FilamentsPerMesh;
 
-    private int MaxTempObjects = 100;
+    private int MaxTempObjects = 1;
 
     private List<GameObject> Objects;
 
@@ -54,7 +54,8 @@ public class FilamentManager : MonoBehaviour {
     public void AddFilament(Vector3 from, Vector3 to, float thickness) {
         if (FilamentIndex != 0 && FilamentIndex % FilamentsPerMesh == 0) {
             CombineTemp();
-            Objects.Add(Instantiate(EmptyFilament));
+            GameObject clone = Instantiate(EmptyFilament, transform);
+            Objects.Add(clone);
         }
 
         Vector3 distance = to - from;
@@ -63,7 +64,9 @@ public class FilamentManager : MonoBehaviour {
         Quaternion rotation = Quaternion.LookRotation(distance);
         Vector3 scale = new Vector3(thickness, thickness, distance.magnitude);
 
-        GameObject tempObject = Instantiate(Filament, position, rotation);
+        GameObject tempObject = Instantiate(Filament, transform);
+        tempObject.transform.localPosition = position;
+        tempObject.transform.localRotation = rotation;
         tempObject.transform.localScale = scale;
 
         TempObjects.Add(tempObject);
@@ -84,7 +87,7 @@ public class FilamentManager : MonoBehaviour {
         FilamentsPerMesh = MaxVerticesPerMesh / VerticesPerMesh;
 
         Objects = new List<GameObject>();
-        Objects.Add(Instantiate(EmptyFilament));
+        Objects.Add(Instantiate(EmptyFilament, transform));
 
 
         // testing

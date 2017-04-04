@@ -80,6 +80,7 @@ public class GcodeLoader : MonoBehaviour {
             foreach (var subCommando in commando) {
                 if(subCommando.Key == target.Key) {
                     target.Value = subCommando.Value;
+                    break;
                 }
             }
         }
