@@ -21,7 +21,7 @@ public class GcodeLoader : MonoBehaviour {
         commandoIndex = 0;
     }
 	
-	void NextGcodeCommand(Printer printer) {
+	public void NextGcodeCommand(Printer printer) {
         if (modelLoaded && forwardPassGcode) {
             if (commandoIndex == 0) { Debug.Log("GCODE_PASS##############################"); Debug.Log("START_PASS_GCODE!!!"); }
             if (commandoIndex >= commands.Count) {
@@ -38,7 +38,7 @@ public class GcodeLoader : MonoBehaviour {
     static List<WriteTuple<char, float>> positionParameters = new List<WriteTuple<char, float>>() { Gcodes.X, Gcodes.Y, Gcodes.Z };
     static List<WriteTuple<char, float>> setParameters = new List<WriteTuple<char, float>>() { Gcodes.S };
     private void SendCommando(List<Tuple<char, float>> commando, Printer printer) {
-        string startCommand = commando[0].Value.ToString() + (int)commando[0].Key;
+        string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
         switch (startCommand) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:

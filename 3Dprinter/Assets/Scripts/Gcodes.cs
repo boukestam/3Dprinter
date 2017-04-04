@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gcodes {
 
-    public const float INVALID_NUMBER = -10000000000;
+    public const float INVALID_NUMBER = -1000000000;
 
     
     public const string MOVE0 = "G0";
