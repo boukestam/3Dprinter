@@ -5,55 +5,86 @@ using UnityEngine;
 public class FilamentManager : MonoBehaviour {
 
     private GameObject Filament;
+    private GameObject EmptyFilament;
     private Mesh FilamentMesh;
 
     private int VerticesPerMesh;
-    private int MaxVerticesPerMesh;
+    private int MaxVerticesPerMesh = 65536;
     private int FilamentsPerMesh;
 
+    private int MaxTempObjects = 100;
+
     private List<GameObject> Objects;
-    private List<CombineInstance> Combine;
+
+    private List<GameObject> TempObjects = new List<GameObject>();
 
     private int FilamentIndex = 0;
 
-    public void AddFilament(Vector3 from, Vector3 to, float thickness) {
-        if (FilamentIndex % FilamentsPerMesh == 0) {
-            Objects.Add(Instantiate(Filament));
-            Combine = new List<CombineInstance>();
-        }
+    private void CombineTemp() {
+        List<CombineInstance> combine = new List<CombineInstance>();
 
         GameObject obj = Objects[Objects.Count - 1];
 
-        Vector3 distance = to - from;
+        CombineInstance objCombine = new CombineInstance();
+        objCombine.mesh = obj.GetComponent<MeshFilter>().sharedMesh;
+        objCombine.transform = obj.transform.localToWorldMatrix;
 
-        Matrix4x4 trs = Matrix4x4.TRS(
-            from + (distance / 2),
-            Quaternion.LookRotation(distance),
-            new Vector3(thickness, thickness, distance.magnitude)
-        );
+        combine.Add(objCombine);
 
-        CombineInstance c = new CombineInstance();
-        c.mesh = FilamentMesh;
-        c.transform = trs;
+        foreach(GameObject temp in TempObjects) {
+            CombineInstance tempCombine = new CombineInstance();
+            tempCombine.mesh = temp.GetComponent<MeshFilter>().sharedMesh;
+            tempCombine.transform = temp.transform.localToWorldMatrix;
 
-        Combine.Add(c);
+            combine.Add(tempCombine);
+        }
+
+        Destroy(obj.GetComponent<MeshFilter>().mesh);
 
         obj.GetComponent<MeshFilter>().mesh = new Mesh();
-        obj.GetComponent<MeshFilter>().mesh.CombineMeshes(Combine.ToArray());
+        obj.GetComponent<MeshFilter>().mesh.CombineMeshes(combine.ToArray());
+
+        foreach(GameObject temp in TempObjects) {
+            Destroy(temp);
+        }
+
+        TempObjects.Clear();
+    }
+
+    public void AddFilament(Vector3 from, Vector3 to, float thickness) {
+        if (FilamentIndex != 0 && FilamentIndex % FilamentsPerMesh == 0) {
+            CombineTemp();
+            Objects.Add(Instantiate(EmptyFilament));
+        }
+
+        Vector3 distance = to - from;
+
+        Vector3 position = from + (distance / 2);
+        Quaternion rotation = Quaternion.LookRotation(distance);
+        Vector3 scale = new Vector3(thickness, thickness, distance.magnitude);
+
+        GameObject tempObject = Instantiate(Filament, position, rotation);
+        tempObject.transform.localScale = scale;
+
+        TempObjects.Add(tempObject);
+
+        if (TempObjects.Count >= MaxTempObjects) {
+            CombineTemp();
+        }
 
         FilamentIndex++;
     }
     
 	void Start () {
         Filament = (GameObject)Resources.Load("Filament");
+        EmptyFilament = (GameObject)Resources.Load("EmptyFilament");
         FilamentMesh = Filament.GetComponent<MeshFilter>().sharedMesh;
 
         VerticesPerMesh = FilamentMesh.vertices.Length;
-        MaxVerticesPerMesh = 65536;
         FilamentsPerMesh = MaxVerticesPerMesh / VerticesPerMesh;
 
         Objects = new List<GameObject>();
-        Combine = new List<CombineInstance>();
+        Objects.Add(Instantiate(EmptyFilament));
 
 
         // testing
@@ -68,15 +99,17 @@ public class FilamentManager : MonoBehaviour {
     // Testing
     GameObject pos;
     
-    void Update () {
+    void FixedUpdate () {
         /*
-        Vector3 from = pos.transform.position;
-        pos.transform.Translate(new Vector3(0, 0, 3));
-        Vector3 to = pos.transform.position;
+        for (int i = 0; i < 1; i++) {
+            Vector3 from = pos.transform.position;
+            pos.transform.Translate(new Vector3(0, 0, 3));
+            Vector3 to = pos.transform.position;
 
-        AddFilament(from, to, 1f);
+            AddFilament(from, to, 1f);
 
-        pos.transform.Rotate(new Vector3(0, 2f, 0.002f));
+            pos.transform.Rotate(new Vector3(0, 2f, 0.002f));
+        }
         */
     }
 }
