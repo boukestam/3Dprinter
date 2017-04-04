@@ -48,7 +48,7 @@ public class Printer : MonoBehaviour {
             StartPositionExtruder = CurrentPositionExtruder;
             x = ValidateParameter(x) ? x : CurrentPositionHead.x;
             y = ValidateParameter(y) ? y : CurrentPositionHead.z;
-            TargetPositionHead = new Vector3(x, transform.position.y, y);
+            TargetPositionHead = new Vector3(x, transform.localPosition.y, y);
             TargetPositionTable = ValidateParameter(z) ? z : CurrentPositionTable;
             float newTargetPositionExtruder = ValidateParameter(extrusion) ? extrusion : TargetPositionExtruder;
             float amountExtrudedForLine = newTargetPositionExtruder - TargetPositionExtruder;
@@ -135,17 +135,18 @@ public class Printer : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        Busy = !ValidateProgress();
-        if (!Busy) {
-            GcodeLoader.NextGcodeCommand(this);
-        }
-        else {
-            Step();
+        for (int i = 0; i < 4; i++) {
+            Busy = !ValidateProgress();
+            if (!Busy) {
+                GcodeLoader.NextGcodeCommand(this);
+            } else {
+                Step();
 
-            /*Debug.Log("position Head: " + CurrentPositionHead);
-            Debug.Log("position Extruder: " + CurrentPositionExtruder);
-            Debug.Log("position Table: " + CurrentPositionTable);
-            Debug.Log("------------------");*/
+                /*Debug.Log("position Head: " + CurrentPositionHead);
+                Debug.Log("position Extruder: " + CurrentPositionExtruder);
+                Debug.Log("position Table: " + CurrentPositionTable);
+                Debug.Log("------------------");*/
+            }
         }
 	}
 }

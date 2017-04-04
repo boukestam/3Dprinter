@@ -16,7 +16,7 @@ public class GcodeLoader : MonoBehaviour {
 
     void Awake() {
         if (loadModelOnAwake) {
-            LoadGcode("Assets/Bunny.gcode");
+            LoadGcode("Assets/Pole.gcode");
         }
         commandoIndex = 0;
     }
@@ -80,6 +80,7 @@ public class GcodeLoader : MonoBehaviour {
             foreach (var subCommando in commando) {
                 if(subCommando.Key == target.Key) {
                     target.Value = subCommando.Value;
+                    break;
                 }
             }
         }
