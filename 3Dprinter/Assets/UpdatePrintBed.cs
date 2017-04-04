@@ -11,8 +11,8 @@ public class UpdatePrintBed : MonoBehaviour {
     }
 
     void Update() {
-        if(transform.position.y != -printer.CurrentPositionTable) {
-            transform.position = new Vector3(0, -printer.CurrentPositionTable, 0);
+        if(transform.localPosition.y != printer.CurrentPositionHead.y) {
+            transform.localPosition = new Vector3(0, -printer.CurrentPositionHead.y, 0);
         }
     }
 }

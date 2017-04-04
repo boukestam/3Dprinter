@@ -18,15 +18,12 @@ public class Printer : MonoBehaviour {
     public float ArcRadius;
 
     public Vector3 StartPositionHead;
-    public float StartPositionTable;
     public float StartPositionExtruder;
 
     public Vector3 CurrentPositionHead;
-    public float CurrentPositionTable;
     public float CurrentPositionExtruder;
     
     public Vector3 TargetPositionHead;
-    public float TargetPositionTable;
     public float TargetPositionExtruder=0;
     public float Thickness;
 
@@ -44,12 +41,11 @@ public class Printer : MonoBehaviour {
     public void Move(float x, float y, float z, float extrusion, float speed) {
         if (!Busy) {
             StartPositionHead = CurrentPositionHead;
-            StartPositionTable = CurrentPositionTable;
             StartPositionExtruder = CurrentPositionExtruder;
             x = ValidateParameter(x) ? x : CurrentPositionHead.x;
             y = ValidateParameter(y) ? y : CurrentPositionHead.z;
-            TargetPositionHead = new Vector3(x, transform.localPosition.y, y);
-            TargetPositionTable = ValidateParameter(z) ? z : CurrentPositionTable;
+            z = ValidateParameter(z) ? z : CurrentPositionHead.y;
+            TargetPositionHead = new Vector3(x, z, y);
             float newTargetPositionExtruder = ValidateParameter(extrusion) ? extrusion : TargetPositionExtruder;
             float amountExtrudedForLine = newTargetPositionExtruder - TargetPositionExtruder;
             TargetPositionExtruder = newTargetPositionExtruder;
@@ -103,7 +99,6 @@ public class Printer : MonoBehaviour {
         Vector3 oldPositionHead = CurrentPositionHead;
         CurrentPositionHead = Vector3.Lerp(StartPositionHead, TargetPositionHead, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
-        CurrentPositionTable = Mathf.Lerp(StartPositionTable, TargetPositionTable, toStep);
         if(Thickness > 0.0001f) {
             FilamentManager.AddFilament(oldPositionHead, CurrentPositionHead, Thickness);
         }
@@ -111,11 +106,8 @@ public class Printer : MonoBehaviour {
 
     private bool ValidateProgress() {
         float distanceHead = Vector3.Distance(CurrentPositionHead, TargetPositionHead);
-        float distanceTable = CurrentPositionTable - TargetPositionTable;
         if (-Accuracy < distanceHead && distanceHead < Accuracy) {
-            if (-Accuracy < distanceTable && distanceTable < Accuracy) {
-                return true;
-            }
+            return true;
         }
         return false;
     }
