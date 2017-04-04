@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 5.6.0f3:3.0.0.1
 StandaloneWindows64
-=======
-5.6.0f3:2.3.0.0
-StandaloneWindows
->>>>>>> 51e9b5d04461cb59530fb433937045a96d220a77
 C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll
 C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
 C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll

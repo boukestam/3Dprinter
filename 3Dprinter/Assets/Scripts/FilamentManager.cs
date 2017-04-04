@@ -88,7 +88,7 @@ public class FilamentManager : MonoBehaviour {
 
 
         // testing
-        pos = Instantiate(new GameObject());
+        //pos = Instantiate(new GameObject());
     }
 
 
@@ -100,6 +100,7 @@ public class FilamentManager : MonoBehaviour {
     GameObject pos;
     
     void FixedUpdate () {
+        /*
         for (int i = 0; i < 1; i++) {
             Vector3 from = pos.transform.position;
             pos.transform.Translate(new Vector3(0, 0, 3));
@@ -109,5 +110,6 @@ public class FilamentManager : MonoBehaviour {
 
             pos.transform.Rotate(new Vector3(0, 2f, 0.002f));
         }
+        */
     }
 }
