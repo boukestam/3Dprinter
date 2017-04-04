@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tuple<T, U> {
-    public T Key { get; set; }
-    public U Value { get; set; }
+    public readonly T Key;
+    public readonly U Value;
 
     public Tuple(T key, U value) {
         Key = key;
@@ -12,8 +12,12 @@ public class Tuple<T, U> {
     }
 }
 
-public static class Tuple {
-    public static Tuple<T, U> Create<T, U>(T key, U value) {
-        return new Tuple<T, U>(key, value);
+public class WriteTuple<T, U> {
+    public readonly T Key;
+    public U Value { get; set; }
+
+    public WriteTuple(T key, U value) {
+        Key = key;
+        Value = value;
     }
 }
