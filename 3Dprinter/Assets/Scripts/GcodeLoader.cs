@@ -16,7 +16,8 @@ public class GcodeLoader : MonoBehaviour {
 
     void Awake() {
         if (loadModelOnAwake) {
-            LoadGcode("Assets/Pole.gcode");
+            //LoadGcode("Assets/Pole.gcode");
+            LoadGcode("Assets/Bunny.gcode");
         }
         commandoIndex = 0;
     }

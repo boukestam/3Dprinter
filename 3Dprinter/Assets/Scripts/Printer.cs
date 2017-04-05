@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Printer : MonoBehaviour {
 
-    private GcodeLoader GcodeLoader;
-    private FilamentManager FilamentManager;
-
+    public bool fastMode;
     public float MaxHeadSpeed;
     public float Accuracy;
 
+    private GcodeLoader GcodeLoader;
+    private FilamentManager FilamentManager;
+    
     //public bool UseAbsoluteCoordinates;
 
     public bool Busy;
@@ -53,7 +54,7 @@ public class Printer : MonoBehaviour {
             DesiredSpeed = MaxHeadSpeed < DesiredSpeed ? MaxHeadSpeed : DesiredSpeed;
 
             ArcRadius = 0;
-            StartTime = Time.time;
+            StartTime = Time.realtimeSinceStartup;
             DistanceToMoveHead = Vector3.Distance(StartPositionHead, TargetPositionHead);
             if (DistanceToMoveHead > 0.000001 && amountExtrudedForLine > 0.0000001) {
                 Thickness = 10 * amountExtrudedForLine / DistanceToMoveHead;
@@ -93,9 +94,11 @@ public class Printer : MonoBehaviour {
     //}
 
     private void Step() {
-        float distanceMoved = (Time.time - StartTime) * DesiredSpeed;
+        float distanceMoved = (Time.realtimeSinceStartup - StartTime) * DesiredSpeed;
         float toStep = distanceMoved / DistanceToMoveHead;
-        if (toStep > 1) { toStep = 1; }
+        if (toStep > 1 || fastMode) {
+            toStep = 1;
+        }
         Vector3 oldPositionHead = CurrentPositionHead;
         CurrentPositionHead = Vector3.Lerp(StartPositionHead, TargetPositionHead, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
@@ -127,16 +130,15 @@ public class Printer : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        Busy = !ValidateProgress();
-        if (!Busy) {
-            GcodeLoader.NextGcodeCommand(this);
-        } else {
-            Step();
-
-            /*Debug.Log("position Head: " + CurrentPositionHead);
-            Debug.Log("position Extruder: " + CurrentPositionExtruder);
-            Debug.Log("position Table: " + CurrentPositionTable);
-            Debug.Log("------------------");*/
+        float updateStartTime = Time.realtimeSinceStartup;
+        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.70f;
+        while (updateLength > Time.realtimeSinceStartup) {
+            Busy = !ValidateProgress();
+            if (!Busy) {
+                GcodeLoader.NextGcodeCommand(this);
+            } else {
+                Step();
+            }
         }
-	}
+    }
 }
