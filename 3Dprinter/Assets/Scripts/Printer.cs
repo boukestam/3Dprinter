@@ -107,11 +107,10 @@ public class Printer : MonoBehaviour {
         if (toStep > 1 || fastMode) {
             toStep = 1;
         }
-        Vector3 oldPositionHead = CurrentPositionHead;
         CurrentPositionHead = Vector3.Lerp(StartPositionHead, TargetPositionHead, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
         if(Thickness > 0.0001f) {
-            FilamentManager.AddFilament(oldPositionHead, CurrentPositionHead, Thickness);
+            FilamentManager.AddFilament(StartPositionHead, CurrentPositionHead, Thickness);
         }
     }
 
