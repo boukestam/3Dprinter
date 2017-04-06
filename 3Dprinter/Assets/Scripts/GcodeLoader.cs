@@ -5,52 +5,59 @@ using System.IO;
 using System.Text;
 using System;
 
+/// <summary>
+///     The GcodeLoader loads gcode from a file into memory. It is also used to loop through the gcode commands to let the Printer class execute the commands.
+/// </summary>
 public class GcodeLoader : MonoBehaviour {
 
-    private bool loadModelOnAwake = true;
-    private bool forwardPassGcode = true;
+    /// <param name="ModelLoaded">Boolean representing if a model has already been loaded into the gcode.</param>
+    private bool ModelLoaded = false;
 
-    private bool modelLoaded = false;
-    private List<Dictionary<char, float>> commands = new List<Dictionary<char, float>>();
-    int commandoIndex = 0;
+    /// <param name="Commands">A list containing all gcode commands.</param>
+    private List<GcodeCommand> Commands = new List<GcodeCommand>();
+
+    /// <param name="CommandsIndex">The current index of the last read gcode command. Used for the NextGcodeCommand function.</param>
+    int CommandsIndex = 0;
 
     void Awake() {
-        if (loadModelOnAwake) {
-            LoadGcode("Assets/Bunny.gcode");
-        }
-        commandoIndex = 0;
+        LoadGcode("Assets/Bunny.gcode", Commands);
     }
-	
-	public bool NextGcodeCommand(Printer printer) {
-        if (modelLoaded && forwardPassGcode) {
-            if (commandoIndex == 0) { Debug.Log("GCODE_PASS##############################"); Debug.Log("START_PASS_GCODE!!!"); }
-            if (commandoIndex >= commands.Count) {
-                return false;
-            }
 
-            SendCommando(commands[commandoIndex], printer);
-            commandoIndex++;
-            if (commandoIndex >= commands.Count) { Debug.Log("DONE_PASS_CGODE!!!"); Debug.Log("GCODE_PASS##############################"); }
+    /// <summary>
+    ///     Returns true if the end of the gcode has been reached.
+    /// </summary>
+    private bool EndOfGcode() {
+        return CommandsIndex >= Commands.Count;
+    }
+
+    /// <summary>
+    ///     Handles moving to the new Gcode command and then calls another function to execute the command for the Printer object.
+    /// </summary>
+    /// <param name="printer">The printer object that requested a new command.</param>
+	public bool NextGcodeCommand(Printer printer) {
+        if (EndOfGcode() || ModelLoaded == false) {
+            return false;
         }
+        ExecuteCommand(Commands[CommandsIndex++], printer);
         return true;
     }
-    
-    private void SendCommando(Dictionary<char, float> commando, Printer printer) {
+
+    /// <summary>
+    ///     Determines the command to execute and then calls the matching function with parameters to the Printer object.
+    /// </summary>
+    /// <param name="command">The command object that will contain all information of the command.</param>
+    /// // <param name="printer">The printer object that requested a new command.</param>
+    private void ExecuteCommand(GcodeCommand command, Printer printer) {
         //string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
-        float commandNumber = 0;
-        if (!commando.TryGetValue('G', out commandNumber)) {
-            commando.TryGetValue('M', out commandNumber);
-        }
-        switch ((int)commandNumber) {
+        switch (command.GetCommandType()) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
-                printer.Move(commando['X'], commando['Y'], commando['Z'], commando['E'], commando['F']);
+                printer.Move(command.Get('X'), command.Get('Y'), command.Get('Z'), command.Get('E'), command.Get('F'));
                 break;
             case Gcodes.HOME_AXIS:
                 printer.HomeAllAxis();
                 break;
             case Gcodes.SET_ABOSLUTE:
-                //printer.HomeAllAxis();
                 break;
             case Gcodes.SET_CURRENT_POS:
                 break;
@@ -67,52 +74,26 @@ public class GcodeLoader : MonoBehaviour {
         }
     }
 
-    void LoadGcode(string filename) {
-        long begin = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        LoadCommands(filename, commands);
-        Debug.Log("LOAD_MODEL##############################");
-        Debug.Log("LINE_COUNT:" + commands.Count);
-        long end = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-        Debug.Log("LOAD_TIME:" + (end - begin) + " ms");
-        Debug.Log("LOAD_MODEL##############################");
-    }
-
-    private void LoadCommands(string filename, List<Dictionary<char, float>> newCommands) {
+    /// <summary>
+    ///     Loads all gcode from a file into memory and links all variables in the gcode into a structured class.
+    /// </summary>
+    /// <param name="filename">The name of the file where to load the gcode from.</param>
+    /// // <param name="newCommands">The list where all gcode commands will be stored in.</param>
+    private void LoadGcode(string filename, List<GcodeCommand> newCommands) {
+        long beginTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         newCommands.Clear();
+        ModelLoaded = false;
         try {
-            File.ReadAllLines(filename);
             StreamReader fileReader = new StreamReader(filename, Encoding.Default);
             using (fileReader) {
                 string line;
-                Dictionary<char, float> previousSubCommandsParsed = new Dictionary<char, float>();
+
                 while ((line = fileReader.ReadLine()) != null) {
-                    // Remove comments
-                    int commentIndex = line.IndexOf(';');
-                    if (commentIndex > -1) {
-                        line = line.Substring(0, commentIndex);
-                    }
-
-                    // Skip empty lines
-                    line = line.Trim();
-                    if (line.Length <= 0) {
-                        continue;
-                    }
-
-                    // Split individual sub-commands and save them
-                    string[] subCommands = line.Split(' ');
-                    Dictionary<char, float> subCommandsParsed = new Dictionary<char, float>(previousSubCommandsParsed);
-                    foreach (var subCommand in subCommands) {
-                        float number = 0;
-                        if (float.TryParse(subCommand.Substring(1), out number)) {
-                            subCommandsParsed[subCommand[0]] = number;
-                        } else {
-                            Debug.Log("REMOVED LINE:"+subCommand);
-                            break;
-                        }
-                    }
-                    if(subCommandsParsed.Count > 0) {
-                        newCommands.Add(subCommandsParsed);
-                        previousSubCommandsParsed = subCommandsParsed;
+                    GcodeCommand command = new GcodeCommand(line);
+                    if (command.IsValid()) {
+                        newCommands.Add(command);
+                    } else {
+                        command = null;
                     }
                 }
                 fileReader.Close();
@@ -120,6 +101,9 @@ public class GcodeLoader : MonoBehaviour {
         } catch (Exception e) {
             Debug.Log(e.Message);
         }
-        modelLoaded = true;
+        ModelLoaded = true;
+
+        long endTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        Debug.Log("GCODE_LOADER (LOAD_TIME:" + (endTime - beginTime) + "ms, LINES:" + Commands.Count + ")" );
     }
 }
