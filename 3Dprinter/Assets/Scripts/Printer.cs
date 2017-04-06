@@ -34,6 +34,10 @@ public class Printer : MonoBehaviour {
     private float StartTime;
     private float DistanceToMoveHead;
 
+    public void SetTimeMultiplier(float multiplier) {
+        TimeMultiplier = multiplier;
+    }
+
     /// <summary>
     /// 
     /// </summary>
