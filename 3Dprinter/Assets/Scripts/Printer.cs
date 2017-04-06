@@ -101,18 +101,26 @@ public class Printer : MonoBehaviour {
     //    UseAbsoluteCoordinates = relative;
     //}
 
+    private float previousToStep = 0;
     private float Step(float maxAllowedTime) {
-        float timeToFinish = DistanceToMoveHead / FeedRatePerSecond;
+        if (DistanceToMoveHead == 0) {
+            return 0;
+        }
+        float timeToFinish = DistanceToMoveHead * (1 - previousToStep) / FeedRatePerSecond;
         float timeToUse = Mathf.Min(timeToFinish, maxAllowedTime);
         float toStep = timeToUse / timeToFinish;
-        if (toStep > 1 || fastMode) {
+        toStep += previousToStep;
+        if (toStep >= 1 || fastMode) {
             toStep = 1;
+            previousToStep = 0;
+        } else {
+            previousToStep = toStep;
         }
-        Vector3 oldPositionHead = CurrentPositionHead;
+
         CurrentPositionHead = Vector3.Lerp(StartPositionHead, TargetPositionHead, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
         if(Thickness > 0.0001f) {
-            FilamentManager.AddFilament(oldPositionHead, CurrentPositionHead, Thickness);
+            FilamentManager.AddFilament(StartPositionHead, CurrentPositionHead, Thickness);
         }
         return timeToUse;
     }
