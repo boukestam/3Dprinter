@@ -22,29 +22,30 @@ public class GcodeLoader : MonoBehaviour {
         commandoIndex = 0;
     }
 	
-	public void NextGcodeCommand(Printer printer) {
+	public bool NextGcodeCommand(Printer printer) {
         if (modelLoaded && forwardPassGcode) {
             if (commandoIndex == 0) { Debug.Log("GCODE_PASS##############################"); Debug.Log("START_PASS_GCODE!!!"); }
             if (commandoIndex >= commands.Count) {
-                return;
+                return false;
             }
 
             SendCommando(commands[commandoIndex], printer);
             commandoIndex++;
             if (commandoIndex >= commands.Count) { Debug.Log("DONE_PASS_CGODE!!!"); Debug.Log("GCODE_PASS##############################"); }
         }
+        return true;
     }
-
-    static List<WriteTuple<char, float>> fullParameters = new List<WriteTuple<char, float>>() { Gcodes.X, Gcodes.Y, Gcodes.Z, Gcodes.E, Gcodes.F };
-    static List<WriteTuple<char, float>> positionParameters = new List<WriteTuple<char, float>>() { Gcodes.X, Gcodes.Y, Gcodes.Z };
-    static List<WriteTuple<char, float>> setParameters = new List<WriteTuple<char, float>>() { Gcodes.S };
+    
+    static Dictionary<char, float> fullParameters = new Dictionary<char, float>() { { 'X', 0.0f }, { 'Y', 0.0f }, { 'Z', 0.0f }, { 'E', 0.0f }, { 'F', 0.0f } };
+    static Dictionary<char, float> positionParameters = new Dictionary<char, float>() { { 'X', 0.0f }, { 'Y', 0.0f }, { 'Z', 0.0f } };
+    static Dictionary<char, float> setParameters = new Dictionary<char, float>() { { 'S', 0.0f } };
     private void SendCommando(List<Tuple<char, float>> commando, Printer printer) {
-        string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
-        switch (startCommand) {
+        //string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
+        switch ((int)commando[0].Value) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
                 PopulateSettings(commando, fullParameters);
-                printer.Move(Gcodes.X.Value, Gcodes.Y.Value, Gcodes.Z.Value, Gcodes.E.Value, Gcodes.F.Value);
+                printer.Move(fullParameters['X'], fullParameters['Y'], fullParameters['Z'], fullParameters['E'], fullParameters['F']);
                 break;
             case Gcodes.HOME_AXIS:
                 PopulateSettings(commando, positionParameters);
@@ -74,16 +75,9 @@ public class GcodeLoader : MonoBehaviour {
         }
     }
 
-    private void PopulateSettings(List<Tuple<char, float>> commando, List<WriteTuple<char, float>> targets) {
-        foreach(var target in targets) {
-            target.Value = Gcodes.INVALID_NUMBER;
-            //string key = target.Key;
-            foreach (var subCommando in commando) {
-                if(subCommando.Key == target.Key) {
-                    target.Value = subCommando.Value;
-                    break;
-                }
-            }
+    private void PopulateSettings(List<Tuple<char, float>> commando, Dictionary<char, float> targets) {
+        foreach(var subCommando in commando) {
+            targets[subCommando.Key] = subCommando.Value;
         }
     }
 

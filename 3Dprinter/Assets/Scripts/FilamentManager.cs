@@ -12,7 +12,7 @@ public class FilamentManager : MonoBehaviour {
     private int MaxVerticesPerMesh = 65536;
     private int FilamentsPerMesh;
 
-    private int MaxTempObjects = 10000;
+    private int MaxTempObjects = 500;
 
     private List<GameObject> Objects;
 
