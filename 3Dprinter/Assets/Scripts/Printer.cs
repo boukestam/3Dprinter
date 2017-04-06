@@ -8,6 +8,8 @@ public class Printer : MonoBehaviour {
     public float MaxHeadSpeed;
     public float Accuracy;
 
+    public float TimeMultiplier;
+
     private GcodeLoader GcodeLoader;
     private FilamentManager FilamentManager;
     
@@ -15,7 +17,8 @@ public class Printer : MonoBehaviour {
 
     public bool Busy;
 
-    public float DesiredSpeed;
+    public float FeedRatePerMinute;
+    float FeedRatePerSecond;
     public float ArcRadius;
 
     public Vector3 StartPositionHead;
@@ -50,8 +53,9 @@ public class Printer : MonoBehaviour {
             float newTargetPositionExtruder = ValidateParameter(extrusion) ? extrusion : TargetPositionExtruder;
             float amountExtrudedForLine = newTargetPositionExtruder - TargetPositionExtruder;
             TargetPositionExtruder = newTargetPositionExtruder;
-            DesiredSpeed = ValidateParameter(speed) ? speed : DesiredSpeed;
-            DesiredSpeed = MaxHeadSpeed < DesiredSpeed ? MaxHeadSpeed : DesiredSpeed;
+            FeedRatePerMinute = ValidateParameter(speed) ? speed : FeedRatePerMinute;
+            FeedRatePerMinute = MaxHeadSpeed < FeedRatePerMinute ? MaxHeadSpeed : FeedRatePerMinute;
+            FeedRatePerSecond = FeedRatePerMinute / 60;
 
             ArcRadius = 0;
             StartTime = Time.realtimeSinceStartup;
@@ -94,7 +98,7 @@ public class Printer : MonoBehaviour {
     //}
 
     private void Step() {
-        float distanceMoved = (Time.realtimeSinceStartup - StartTime) * DesiredSpeed;
+        float distanceMoved = (Time.realtimeSinceStartup - StartTime) * FeedRatePerSecond * TimeMultiplier;
         float toStep = distanceMoved / DistanceToMoveHead;
         if (toStep > 1 || fastMode) {
             toStep = 1;
@@ -135,7 +139,9 @@ public class Printer : MonoBehaviour {
         while (updateLength > Time.realtimeSinceStartup) {
             Busy = !ValidateProgress();
             if (!Busy) {
-                GcodeLoader.NextGcodeCommand(this);
+                if (!GcodeLoader.NextGcodeCommand(this)) {
+                    break;
+                }
             } else {
                 Step();
             }
