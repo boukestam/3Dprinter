@@ -101,9 +101,10 @@ public class Printer : MonoBehaviour {
     //    UseAbsoluteCoordinates = relative;
     //}
 
-    private void Step() {
-        float distanceMoved = (Time.realtimeSinceStartup - StartTime) * FeedRatePerSecond * TimeMultiplier;
-        float toStep = distanceMoved / DistanceToMoveHead;
+    private float Step(float maxAllowedTime) {
+        float timeToFinish = DistanceToMoveHead / FeedRatePerSecond;
+        float timeToUse = Mathf.Min(timeToFinish, maxAllowedTime);
+        float toStep = timeToUse / timeToFinish;
         if (toStep > 1 || fastMode) {
             toStep = 1;
         }
@@ -113,6 +114,7 @@ public class Printer : MonoBehaviour {
         if(Thickness > 0.0001f) {
             FilamentManager.AddFilament(oldPositionHead, CurrentPositionHead, Thickness);
         }
+        return timeToUse;
     }
 
     private bool ValidateProgress() {
@@ -139,15 +141,19 @@ public class Printer : MonoBehaviour {
 	
 	void FixedUpdate () {
         float updateStartTime = Time.realtimeSinceStartup;
-        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.70f;
+        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.80f;
+
+        float maxAllowedTime = TimeMultiplier * Time.fixedDeltaTime;
         while (updateLength > Time.realtimeSinceStartup) {
             Busy = !ValidateProgress();
             if (!Busy) {
                 if (!GcodeLoader.NextGcodeCommand(this)) {
                     break;
                 }
-            } else {
-                Step();
+            }
+            maxAllowedTime -= Step(maxAllowedTime);
+            if (maxAllowedTime <= 0) {
+                break;
             }
         }
     }

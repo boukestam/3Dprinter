@@ -57,18 +57,31 @@ public class FilamentManager : MonoBehaviour {
         TempObjects.Clear();
     }
 
-    public void AddFilament(Vector3 from, Vector3 to, float thickness) {
-        if (FilamentIndex != 0 && FilamentIndex % FilamentsPerMesh == 0) {
-            CombineTemp();
-            GameObject clone = Instantiate(EmptyFilament, transform);
-            Objects.Add(clone);
-        }
+    private Vector3 PreviousFrom;
+    private static Vector3 TotallyRandom = new Vector3(39642f, 43785f, 325346f);
 
+    public void AddFilament(Vector3 from, Vector3 to, float thickness) {
         Vector3 distance = to - from;
 
         Vector3 position = from + (distance / 2);
         Quaternion rotation = Quaternion.LookRotation(distance);
         Vector3 scale = new Vector3(thickness, thickness, distance.magnitude);
+
+        if (PreviousFrom == from) {
+            GameObject t = TempObjects[TempObjects.Count - 1];
+
+            t.transform.localPosition = position;
+            t.transform.localRotation = rotation;
+            t.transform.localScale = scale;
+
+            return;
+        }
+
+        if (FilamentIndex != 0 && FilamentIndex % FilamentsPerMesh == 0) {
+            CombineTemp();
+            GameObject clone = Instantiate(EmptyFilament, transform);
+            Objects.Add(clone);
+        }
 
         GameObject tempObject = Instantiate(Filament, transform);
         tempObject.transform.localPosition = position;
@@ -79,6 +92,9 @@ public class FilamentManager : MonoBehaviour {
 
         if (TempObjects.Count >= MaxTempObjects) {
             CombineTemp();
+            PreviousFrom = TotallyRandom;
+        } else {
+            PreviousFrom = from;
         }
 
         FilamentIndex++;
