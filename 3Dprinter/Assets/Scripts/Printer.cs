@@ -134,15 +134,17 @@ public class Printer : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        float updateStartTime = Time.realtimeSinceStartup;
+        /*float updateStartTime = Time.realtimeSinceStartup;
         float updateLength = updateStartTime + Time.fixedDeltaTime * 0.70f;
         while (updateLength > Time.realtimeSinceStartup) {
             Busy = !ValidateProgress();
             if (!Busy) {
-                GcodeLoader.NextGcodeCommand(this);
+                if (!GcodeLoader.NextGcodeCommand(this)) {
+                    break;
+                }
             } else {
                 Step();
             }
-        }
+        }*/
     }
 }
