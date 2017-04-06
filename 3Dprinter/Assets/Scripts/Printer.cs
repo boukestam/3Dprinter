@@ -59,7 +59,7 @@ public class Printer : MonoBehaviour {
             if (DistanceToMoveHead > 0.000001 && amountExtrudedForLine > 0.0000001) {
                 Thickness = 10 * amountExtrudedForLine / DistanceToMoveHead;
             } else {
-                Thickness = 0.05f;
+                Thickness = 0.0f;
             }
             if(Thickness < 0) {
                 Thickness = 0;
