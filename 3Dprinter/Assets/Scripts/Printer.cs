@@ -149,7 +149,7 @@ public class Printer : MonoBehaviour {
 	
 	void FixedUpdate () {
         float updateStartTime = Time.realtimeSinceStartup;
-        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.80f;
+        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.75f;
 
         float maxAllowedTime = TimeMultiplier * Time.fixedDeltaTime;
         while (updateLength > Time.realtimeSinceStartup) {
