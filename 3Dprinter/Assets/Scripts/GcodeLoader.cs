@@ -11,12 +11,11 @@ public class GcodeLoader : MonoBehaviour {
     private bool forwardPassGcode = true;
 
     private bool modelLoaded = false;
-    private List<List<Tuple<char, float>>> commands = new List<List<Tuple<char, float>>>();
+    private List<Dictionary<char, float>> commands = new List<Dictionary<char, float>>();
     int commandoIndex = 0;
 
     void Awake() {
         if (loadModelOnAwake) {
-            //LoadGcode("Assets/Pole.gcode");
             LoadGcode("Assets/Bunny.gcode");
         }
         commandoIndex = 0;
@@ -36,48 +35,35 @@ public class GcodeLoader : MonoBehaviour {
         return true;
     }
     
-    static Dictionary<char, float> fullParameters = new Dictionary<char, float>() { { 'X', 0.0f }, { 'Y', 0.0f }, { 'Z', 0.0f }, { 'E', 0.0f }, { 'F', 0.0f } };
-    static Dictionary<char, float> positionParameters = new Dictionary<char, float>() { { 'X', 0.0f }, { 'Y', 0.0f }, { 'Z', 0.0f } };
-    static Dictionary<char, float> setParameters = new Dictionary<char, float>() { { 'S', 0.0f } };
-    private void SendCommando(List<Tuple<char, float>> commando, Printer printer) {
+    private void SendCommando(Dictionary<char, float> commando, Printer printer) {
         //string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
-        switch ((int)commando[0].Value) {
+        float commandNumber = 0;
+        if (!commando.TryGetValue('G', out commandNumber)) {
+            commando.TryGetValue('M', out commandNumber);
+        }
+        switch ((int)commandNumber) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
-                PopulateSettings(commando, fullParameters);
-                printer.Move(fullParameters['X'], fullParameters['Y'], fullParameters['Z'], fullParameters['E'], fullParameters['F']);
+                printer.Move(commando['X'], commando['Y'], commando['Z'], commando['E'], commando['F']);
                 break;
             case Gcodes.HOME_AXIS:
-                PopulateSettings(commando, positionParameters);
                 printer.HomeAllAxis();
                 break;
             case Gcodes.SET_ABOSLUTE:
                 //printer.HomeAllAxis();
                 break;
             case Gcodes.SET_CURRENT_POS:
-                PopulateSettings(commando, fullParameters);
                 break;
             case Gcodes.FAN_ON:
-                PopulateSettings(commando, setParameters);
                 break;
             case Gcodes.FAN_OFF:
-                PopulateSettings(commando, setParameters);
                 break;
             case Gcodes.SET_EXTRUDER_TEMP:
-                PopulateSettings(commando, setParameters);
                 break;
             case Gcodes.SET_BED_TEMP:
-                PopulateSettings(commando, setParameters);
                 break;
             default:
-                //Debug.Log("Unknown command:"+ commando[0]);
                 break;
-        }
-    }
-
-    private void PopulateSettings(List<Tuple<char, float>> commando, Dictionary<char, float> targets) {
-        foreach(var subCommando in commando) {
-            targets[subCommando.Key] = subCommando.Value;
         }
     }
 
@@ -91,12 +77,14 @@ public class GcodeLoader : MonoBehaviour {
         Debug.Log("LOAD_MODEL##############################");
     }
 
-    private void LoadCommands(string filename, List<List<Tuple<char, float>>> newCommands) {
+    private void LoadCommands(string filename, List<Dictionary<char, float>> newCommands) {
         newCommands.Clear();
         try {
+            File.ReadAllLines(filename);
             StreamReader fileReader = new StreamReader(filename, Encoding.Default);
             using (fileReader) {
                 string line;
+                Dictionary<char, float> previousSubCommandsParsed = new Dictionary<char, float>();
                 while ((line = fileReader.ReadLine()) != null) {
                     // Remove comments
                     int commentIndex = line.IndexOf(';');
@@ -112,11 +100,11 @@ public class GcodeLoader : MonoBehaviour {
 
                     // Split individual sub-commands and save them
                     string[] subCommands = line.Split(' ');
-                    List<Tuple<char, float>> subCommandsParsed = new List<Tuple<char, float>>();
+                    Dictionary<char, float> subCommandsParsed = new Dictionary<char, float>(previousSubCommandsParsed);
                     foreach (var subCommand in subCommands) {
-                        double number = 0;
-                        if (double.TryParse(subCommand.Substring(1), out number)) {
-                            subCommandsParsed.Add(new Tuple<char, float>(subCommand[0], (float)number));
+                        float number = 0;
+                        if (float.TryParse(subCommand.Substring(1), out number)) {
+                            subCommandsParsed[subCommand[0]] = number;
                         } else {
                             Debug.Log("REMOVED LINE:"+subCommand);
                             break;
@@ -124,6 +112,7 @@ public class GcodeLoader : MonoBehaviour {
                     }
                     if(subCommandsParsed.Count > 0) {
                         newCommands.Add(subCommandsParsed);
+                        previousSubCommandsParsed = subCommandsParsed;
                     }
                 }
                 fileReader.Close();
