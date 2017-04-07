@@ -6,8 +6,9 @@ using System.Collections.Generic;
 /// </summary>
 public class GcodeCommand {
     private int Type;
-    private Dictionary<char, float> SubCommands;
     private bool Valid = true;
+
+    public float X = Gcodes.INVALID_NUMBER, Y = Gcodes.INVALID_NUMBER, Z = Gcodes.INVALID_NUMBER, E = Gcodes.INVALID_NUMBER, F = Gcodes.INVALID_NUMBER;
 
     /// <summary>
     ///     This constructor will convert a string of text into a GcodeCommand object if a single gcode command represents the text.
@@ -29,7 +30,7 @@ public class GcodeCommand {
 
         // Split individual sub-commands and save them into the dictionary.
         string[] subCommandsUnchanged = text.Split(' ');
-        SubCommands = new Dictionary<char, float>() { { 'X', Gcodes.INVALID_NUMBER }, { 'Y', Gcodes.INVALID_NUMBER }, { 'Z', Gcodes.INVALID_NUMBER }, { 'E', Gcodes.INVALID_NUMBER }, { 'F', Gcodes.INVALID_NUMBER }, { 'S', Gcodes.INVALID_NUMBER } };
+        
         int addCount = 0;
         foreach (var subCommand in subCommandsUnchanged) {
             float number = 0;
@@ -37,7 +38,19 @@ public class GcodeCommand {
                 if(addCount == 0) {
                     Type = (int)number;
                 }
-                SubCommands[subCommand[0]] = number;
+
+                if(subCommand[0] == 'X') {
+                    X = number;
+                }else if (subCommand[0] == 'Y') {
+                    Y = number;
+                } else if (subCommand[0] == 'Z') {
+                    Z = number;
+                } else if (subCommand[0] == 'E') {
+                    E = number;
+                } else if (subCommand[0] == 'F') {
+                    F = number;
+                }
+                
                 addCount++;
             } else {
                 Valid = false;
@@ -61,14 +74,5 @@ public class GcodeCommand {
     /// </summary>
     public int GetCommandType() {
         return Type;
-    }
-
-    /// <summary>
-    ///     Returns a float matching the giving key in the GcodeCommand.
-    ///     For example in the GcodeCommand "G1 X1.5454 Y5.64", using Get('Y') returns 5.64.
-    /// </summary>
-    /// <param name="key">The key matching the value of the subpart of the gcommand.</param>
-    public float Get(char key) {
-        return SubCommands[key];
     }
 }

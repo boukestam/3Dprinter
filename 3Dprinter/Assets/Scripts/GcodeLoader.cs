@@ -19,8 +19,8 @@ public class GcodeLoader : MonoBehaviour {
     /// <param name="CommandsIndex">The current index of the last read gcode command. Used for the NextGcodeCommand function.</param>
     int CommandsIndex = 0;
 
-    void FixedUpdate() {
-        LoadGcode("Assets/Pole.gcode", Commands);
+    void Awake() {
+        LoadGcode("Assets/Bunny.gcode", Commands);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public class GcodeLoader : MonoBehaviour {
         switch (command.GetCommandType()) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
-                printer.Move(command.Get('X'), command.Get('Y'), command.Get('Z'), command.Get('E'), command.Get('F'));
+                printer.Move(command.X, command.Y, command.Z, command.E, command.F);
                 break;
             case Gcodes.HOME_AXIS:
                 printer.HomeAllAxis();
