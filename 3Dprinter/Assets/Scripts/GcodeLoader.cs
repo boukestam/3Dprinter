@@ -19,8 +19,8 @@ public class GcodeLoader : MonoBehaviour {
     /// <param name="CommandsIndex">The current index of the last read gcode command. Used for the NextGcodeCommand function.</param>
     int CommandsIndex = 0;
 
-    void Awake() {
-        LoadGcode("Assets/Bunny.gcode", Commands);
+    void FixedUpdate() {
+        LoadGcode("Assets/Pole.gcode", Commands);
     }
 
     /// <summary>
