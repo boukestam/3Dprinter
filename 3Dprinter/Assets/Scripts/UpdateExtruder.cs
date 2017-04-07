@@ -11,8 +11,8 @@ public class UpdateExtruder : MonoBehaviour {
     }
 	
 	void Update () {
-        if (transform.localPosition.x != printer.CurrentPositionHead.x || transform.localPosition.z != printer.CurrentPositionHead.z) {
-            transform.localPosition = new Vector3(printer.CurrentPositionHead.x, 0, printer.CurrentPositionHead.z);
+        if (transform.localPosition.x != printer.CurrentPosition.x || transform.localPosition.z != printer.CurrentPosition.z) {
+            transform.localPosition = new Vector3(printer.CurrentPosition.x, 0, printer.CurrentPosition.z);
         }
     }
 }
