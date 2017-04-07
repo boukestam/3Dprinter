@@ -83,7 +83,21 @@ public class GcodeLoader : MonoBehaviour {
         long beginTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         newCommands.Clear();
         ModelLoaded = false;
-        try {
+
+        var filestream = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+        var fileReader = new System.IO.StreamReader(filestream, System.Text.Encoding.UTF8, true, 128);
+        string line;
+        while ((line = fileReader.ReadLine()) != null) {
+            GcodeCommand command = new GcodeCommand(line);
+            if (command.IsValid()) {
+                newCommands.Add(command);
+            } else {
+                command = null;
+            }
+        }
+
+
+        /*try {
             StreamReader fileReader = new StreamReader(filename, Encoding.Default);
             using (fileReader) {
                 string line;
@@ -100,7 +114,7 @@ public class GcodeLoader : MonoBehaviour {
             }
         } catch (Exception e) {
             Debug.Log(e.Message);
-        }
+        }*/
         ModelLoaded = true;
 
         long endTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;

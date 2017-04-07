@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 ///     This class stores a single gcode command.
@@ -9,6 +10,45 @@ public class GcodeCommand {
     private bool Valid = true;
 
     public float X = Gcodes.INVALID_NUMBER, Y = Gcodes.INVALID_NUMBER, Z = Gcodes.INVALID_NUMBER, E = Gcodes.INVALID_NUMBER, F = Gcodes.INVALID_NUMBER;
+    
+    System.Globalization.NumberStyles style = System.Globalization.NumberStyles.Float;
+    System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.InvariantCulture;
+
+    static decimal CustomParseFloat(string input) {
+        int n = 0;
+        int decimalPosition = input.Length;
+        for (int k = 0; k < input.Length; k++) {
+            char c = input[k];
+            if (c == '.')
+                decimalPosition = k + 1;
+            else
+                n = (n * 10) + (int)(c - '0');
+        }
+        return new decimal((int)n, (int)(n >> 32), 0, false, (byte)(input.Length - decimalPosition));
+    }
+
+    /// <summary>
+    ///     An optimized string to float conversion method, without error checking.
+    /// </summary>
+    /// <param name="input">The string that will be converted to the float.</param>
+    private static float StringToFloat(string input) {
+        float number = 0;
+        int length = input.Length;
+        int decimalPosition = length;
+        bool negative = input[0] == '-';
+        int begin = (negative ? 1 : 0);
+        for (int i = begin; i < length; i++) {
+            char character = input[i];
+
+            if (character == '.') {
+                decimalPosition = i + 1;
+            } else {
+                number = (number * 10) + (character - '0');
+            }
+        }
+        
+        return ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
+    }
 
     /// <summary>
     ///     This constructor will convert a string of text into a GcodeCommand object if a single gcode command represents the text.
@@ -33,29 +73,24 @@ public class GcodeCommand {
         
         int addCount = 0;
         foreach (var subCommand in subCommandsUnchanged) {
-            float number = 0;
-            if (float.TryParse(subCommand.Substring(1), out number)) {
-                if(addCount == 0) {
-                    Type = (int)number;
-                }
-
-                if(subCommand[0] == 'X') {
-                    X = number;
-                }else if (subCommand[0] == 'Y') {
-                    Y = number;
-                } else if (subCommand[0] == 'Z') {
-                    Z = number;
-                } else if (subCommand[0] == 'E') {
-                    E = number;
-                } else if (subCommand[0] == 'F') {
-                    F = number;
-                }
-                
-                addCount++;
-            } else {
-                Valid = false;
-                return;
+            float number = StringToFloat(subCommand.Substring(1));
+            if(addCount == 0) {
+                Type = (int)number;
             }
+
+            if(subCommand[0] == 'X') {
+                X = number;
+            }else if (subCommand[0] == 'Y') {
+                Y = number;
+            } else if (subCommand[0] == 'Z') {
+                Z = number;
+            } else if (subCommand[0] == 'E') {
+                E = number;
+            } else if (subCommand[0] == 'F') {
+                F = number;
+            }
+                
+            addCount++;
         }
         if(addCount == 0) {
             Valid = false;
