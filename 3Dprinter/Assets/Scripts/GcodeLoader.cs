@@ -52,7 +52,7 @@ public class GcodeLoader : MonoBehaviour {
         switch (command.GetCommandType()) {
             case Gcodes.MOVE0:
             case Gcodes.MOVE1:
-                printer.Move(command.Get('X'), command.Get('Y'), command.Get('Z'), command.Get('E'), command.Get('F'));
+                printer.Move(command.X, command.Y, command.Z, command.E, command.F);
                 break;
             case Gcodes.HOME_AXIS:
                 printer.HomeAllAxis();
