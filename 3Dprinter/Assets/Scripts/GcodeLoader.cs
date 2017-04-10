@@ -20,7 +20,7 @@ public class GcodeLoader : MonoBehaviour {
     int CommandsIndex = 0;
 
     void Awake() {
-        LoadGcode("Assets/Bunny.gcode", Commands);
+        Load("Assets/Bunny.gcode", Commands);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class GcodeLoader : MonoBehaviour {
     ///     Handles moving to the new Gcode command and then calls another function to execute the command for the Printer object.
     /// </summary>
     /// <param name="printer">The printer object that requested a new command.</param>
-	public bool NextGcodeCommand(Printer printer) {
+	public bool ExecuteNextCommand(Printer printer) {
         if (EndOfGcode() || ModelLoaded == false) {
             return false;
         }
@@ -79,7 +79,7 @@ public class GcodeLoader : MonoBehaviour {
     /// </summary>
     /// <param name="filename">The name of the file where to load the gcode from.</param>
     /// // <param name="newCommands">The list where all gcode commands will be stored in.</param>
-    private void LoadGcode(string filename, List<GcodeCommand> newCommands) {
+    private void Load(string filename, List<GcodeCommand> newCommands) {
         long beginTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         newCommands.Clear();
         ModelLoaded = false;
@@ -95,26 +95,6 @@ public class GcodeLoader : MonoBehaviour {
                 command = null;
             }
         }
-
-
-        /*try {
-            StreamReader fileReader = new StreamReader(filename, Encoding.Default);
-            using (fileReader) {
-                string line;
-
-                while ((line = fileReader.ReadLine()) != null) {
-                    GcodeCommand command = new GcodeCommand(line);
-                    if (command.IsValid()) {
-                        newCommands.Add(command);
-                    } else {
-                        command = null;
-                    }
-                }
-                fileReader.Close();
-            }
-        } catch (Exception e) {
-            Debug.Log(e.Message);
-        }*/
         ModelLoaded = true;
 
         long endTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;

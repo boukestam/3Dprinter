@@ -9,10 +9,7 @@ public class GcodeCommand {
     private int Type;
     private bool Valid = true;
 
-    public float X = Gcodes.INVALID_NUMBER, Y = Gcodes.INVALID_NUMBER, Z = Gcodes.INVALID_NUMBER, E = Gcodes.INVALID_NUMBER, F = Gcodes.INVALID_NUMBER;
-    
-    System.Globalization.NumberStyles style = System.Globalization.NumberStyles.Float;
-    System.Globalization.CultureInfo culture = System.Globalization.CultureInfo.InvariantCulture;
+    public float X = Gcodes.INVALID_NUMBER, Y = Gcodes.INVALID_NUMBER, Z = Gcodes.INVALID_NUMBER, E = Gcodes.INVALID_NUMBER, F = Gcodes.INVALID_NUMBER, S = Gcodes.INVALID_NUMBER;
 
     static decimal CustomParseFloat(string input) {
         int n = 0;
@@ -50,6 +47,22 @@ public class GcodeCommand {
         return ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
     }
 
+    public List<string> NumberSplit(string text) {
+        List<string> command = new List<string>();
+        int start = 0;
+        for (int i=0;i<text.Length;i++){
+            if(char.IsUpper(text[i])) {
+                if(start < i) {
+                    command.Add(text.Substring(start, i - start).Trim());
+                }
+                start = i;
+            }
+        }
+        command.Add(text.Substring(start, text.Length - start).Trim());
+        
+        return command;
+    }
+
     /// <summary>
     ///     This constructor will convert a string of text into a GcodeCommand object if a single gcode command represents the text.
     /// </summary>
@@ -69,16 +82,18 @@ public class GcodeCommand {
         }
 
         // Split individual sub-commands and save them into the dictionary.
-        string[] subCommandsUnchanged = text.Split(' ');
-        
+        List<string> subCommandsUnchanged = new List<string>(text.Split(' '));
+        if(subCommandsUnchanged.Count == 1) {
+            subCommandsUnchanged = NumberSplit(text);
+        }
+
         int addCount = 0;
         foreach (var subCommand in subCommandsUnchanged) {
             float number = StringToFloat(subCommand.Substring(1));
             if(addCount == 0) {
                 Type = (int)number;
             }
-
-            if(subCommand[0] == 'X') {
+            else if(subCommand[0] == 'X') {
                 X = number;
             }else if (subCommand[0] == 'Y') {
                 Y = number;
@@ -88,8 +103,9 @@ public class GcodeCommand {
                 E = number;
             } else if (subCommand[0] == 'F') {
                 F = number;
+            } else if (subCommand[0] == 'S') {
+                S = number;
             }
-                
             addCount++;
         }
         if(addCount == 0) {

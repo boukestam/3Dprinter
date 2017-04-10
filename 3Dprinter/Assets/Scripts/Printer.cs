@@ -159,7 +159,7 @@ public class Printer : MonoBehaviour {
         while (updateLength > Time.realtimeSinceStartup) {
             Busy = !ValidateProgress();
             if (!Busy) {
-                if (!GcodeLoader.NextGcodeCommand(this)) {
+                if (!GcodeLoader.ExecuteNextCommand(this)) {
                     break;
                 }
             }
