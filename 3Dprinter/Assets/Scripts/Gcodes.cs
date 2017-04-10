@@ -10,7 +10,7 @@ public class Gcodes {
     public const int MOVE0 = 0;
     public const int MOVE1 = 1;
     public const int HOME_AXIS = 28;
-    public const int SET_ABOSLUTE = 90;
+    public const int SET_ABSOLUTE = 90;
     public const int SET_CURRENT_POS = 92;
 
     // M codes

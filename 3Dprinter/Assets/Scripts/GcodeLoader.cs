@@ -57,7 +57,7 @@ public class GcodeLoader : MonoBehaviour {
             case Gcodes.HOME_AXIS:
                 printer.HomeAllAxis();
                 break;
-            case Gcodes.SET_ABOSLUTE:
+            case Gcodes.SET_ABSOLUTE:
                 break;
             case Gcodes.SET_CURRENT_POS:
                 break;
