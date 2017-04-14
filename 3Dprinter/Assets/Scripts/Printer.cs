@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Printer : MonoBehaviour {
-
-    public bool fastMode;
+    
     public float MaxHeadSpeed;
     public float Accuracy;
 
@@ -16,8 +15,14 @@ public class Printer : MonoBehaviour {
     private bool Busy;
 
     public float FeedRatePerMinute;
-    private float FeedRatePerSecond;
-    public float ArcRadius;
+    public float FeedRatePerSecond;
+
+
+    public float CurrentExtruderTemperature;
+    public float CurrentBedTemperature;
+
+    public float TargetExtruderTemperature;
+    public float TargetBedTemperature;
 
     public Vector3 StartPosition;
     public float StartPositionExtruder;
@@ -28,8 +33,7 @@ public class Printer : MonoBehaviour {
     public Vector3 TargetPosition;
     public float TargetPositionExtruder=0;
     public float Thickness;
-
-    private float StartTime;
+    
     private float DistanceToMoveHead;
 
     private float previousToStep = 0;
@@ -64,9 +68,7 @@ public class Printer : MonoBehaviour {
             FeedRatePerMinute = ValidateParameter(feedrate) ? feedrate : FeedRatePerMinute;
             FeedRatePerMinute = MaxHeadSpeed < FeedRatePerMinute ? MaxHeadSpeed : FeedRatePerMinute;
             FeedRatePerSecond = FeedRatePerMinute / 60;
-
-            ArcRadius = 0;
-            StartTime = Time.realtimeSinceStartup;
+            
             DistanceToMoveHead = Vector3.Distance(StartPosition, TargetPosition);
             if (DistanceToMoveHead > 0.000001 && amountExtrudedForLine > 0.0000001) {
                 Thickness = 10 * amountExtrudedForLine / DistanceToMoveHead;
@@ -77,6 +79,18 @@ public class Printer : MonoBehaviour {
                 Thickness = 0;
             }
         }
+    }
+
+    public void SetExtruderTemperature(float temperature) {
+        TargetExtruderTemperature = temperature;
+        //hack;
+        CurrentExtruderTemperature = temperature;
+    }
+
+    public void SetBedTemperature(float temperature) {
+        TargetBedTemperature = temperature;
+        //hack;
+        CurrentBedTemperature = temperature;
     }
 
     //TODO add axis params.
@@ -107,7 +121,7 @@ public class Printer : MonoBehaviour {
         float timeToUse = Mathf.Min(timeToFinish, maxAllowedTime);
         float toStep = timeToUse / timeToFinish;
         toStep += previousToStep;
-        if (toStep >= 1 || fastMode) {
+        if (toStep >= 1) {
             toStep = 1;
             previousToStep = 0;
         } else {
