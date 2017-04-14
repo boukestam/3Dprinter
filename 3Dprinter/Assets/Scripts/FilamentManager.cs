@@ -15,7 +15,7 @@ public class FilamentManager : MonoBehaviour {
     private List<GameObject> Objects;               // The objects containing the combined meshes
 
     private GameObject[] TempObjects;               // List of temporary gameobjects
-    private int MaxTempObjects = 750;              // Maximum number of temporary gameobjects until they are combined
+    private int MaxTempObjects = 2500;              // Maximum number of temporary gameobjects until they are combined
     private int TempIndex = 0;                      // Index to store temporary object
 
     private int FilamentCount = 0;                  // Amount of filaments created
@@ -69,7 +69,7 @@ public class FilamentManager : MonoBehaviour {
 
         // Hide all temp objects
         foreach (GameObject temp in TempObjects) {
-            temp.SetActive(false);
+            temp.GetComponent<MeshRenderer>().enabled = false;
         }
 
         TempIndex = 0;
@@ -111,7 +111,8 @@ public class FilamentManager : MonoBehaviour {
         tempObject.transform.localPosition = position;
         tempObject.transform.localRotation = rotation;
         tempObject.transform.localScale = scale;
-        tempObject.SetActive(true);
+        
+        tempObject.GetComponent<MeshRenderer>().enabled = true;
 
         TempIndex++;
 
@@ -145,7 +146,8 @@ public class FilamentManager : MonoBehaviour {
 
         for(int i = 0; i < TempObjects.Length; i++) {
             TempObjects[i] = Instantiate(Filament, transform);
-            TempObjects[i].SetActive(false);
+            
+            TempObjects[i].GetComponent<MeshRenderer>().enabled = false;
         }
     }
 }
