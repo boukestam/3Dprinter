@@ -17,5 +17,9 @@ public class Gcodes {
     public const int FAN_ON = 106;
     public const int FAN_OFF = 107;
     public const int SET_EXTRUDER_TEMP = 104;
+    public const int SET_EXTRUDER_TEMP2 = 109;
     public const int SET_BED_TEMP = 140;
+    public const int SET_BED_TEMP2 = 190;
+
+
 }

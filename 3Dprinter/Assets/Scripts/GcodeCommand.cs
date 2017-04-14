@@ -43,8 +43,9 @@ public class GcodeCommand {
                 number = (number * 10) + (character - '0');
             }
         }
-        
-        return ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
+
+        float result = ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
+        return result;
     }
 
     public List<string> NumberSplit(string text) {

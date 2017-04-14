@@ -66,10 +66,12 @@ public class GcodeLoader : MonoBehaviour {
             case Gcodes.FAN_OFF:
                 break;
             case Gcodes.SET_EXTRUDER_TEMP:
-                printer.SetExtruderTemperature(command.X);
+            case Gcodes.SET_EXTRUDER_TEMP2:
+                printer.SetExtruderTemperature(command.S);
                 break;
             case Gcodes.SET_BED_TEMP:
-                printer.SetBedTemperature(command.X);
+            case Gcodes.SET_BED_TEMP2:
+                printer.SetBedTemperature(command.S);
                 break;
             default:
                 break;
