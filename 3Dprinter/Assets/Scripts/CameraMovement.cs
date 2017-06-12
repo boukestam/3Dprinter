@@ -20,10 +20,10 @@ public class CameraMovement : MonoBehaviour {
 	}
 	
 	void Update () {
-        Vector3 mouseDelta = Input.mousePosition - PreviousMousePosition;
+        var mouseDelta = Input.mousePosition - PreviousMousePosition;
         PreviousMousePosition = Input.mousePosition;
 
-        Vector3 translate = new Vector3();
+        var translate = new Vector3();
 
         translate.z = Input.mouseScrollDelta.y * ScrollSpeed;
 

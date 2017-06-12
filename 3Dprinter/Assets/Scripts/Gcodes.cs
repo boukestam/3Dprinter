@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gcodes {
+/// <summary>
+///     This class contains all values of the G and M codes.
+/// </summary>
+public class GMcodes {
 
-    public const float INVALID_NUMBER = -1000000000;
+    public const float InvalidNumber = -1000000000;
 
     // G codes
-    public const int MOVE0 = 0;
-    public const int MOVE1 = 1;
-    public const int HOME_AXIS = 28;
-    public const int SET_ABSOLUTE = 90;
-    public const int SET_CURRENT_POS = 92;
+    public const int Move0 = 0;
+    public const int Move1 = 1;
+    public const int HomeAxis = 28;
+    public const int SetAbsolute = 90;
+    public const int SetCurrentPosition = 92;
 
     // M codes
-    public const int FAN_ON = 106;
-    public const int FAN_OFF = 107;
-    public const int SET_EXTRUDER_TEMP = 104;
-    public const int SET_EXTRUDER_TEMP2 = 109;
-    public const int SET_BED_TEMP = 140;
-    public const int SET_BED_TEMP2 = 190;
+    public const int FanOn = 106;
+    public const int FanOff = 107;
+    public const int SetExtruderTemperature1 = 104;
+    public const int SetExtruderTemperature2 = 109;
+    public const int SetBedTemperature1 = 140;
+    public const int SetBedTemperature2 = 190;
 
 
 }

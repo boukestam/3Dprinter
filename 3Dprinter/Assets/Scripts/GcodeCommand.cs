@@ -6,63 +6,11 @@ using UnityEngine;
 ///     This class stores a single gcode command.
 /// </summary>
 public class GcodeCommand {
+    [HideInInspector]
+    public float X = GMcodes.InvalidNumber, Y = GMcodes.InvalidNumber, Z = GMcodes.InvalidNumber, E = GMcodes.InvalidNumber, F = GMcodes.InvalidNumber, S = GMcodes.InvalidNumber;
+
     private int Type;
     private bool Valid = true;
-
-    public float X = Gcodes.INVALID_NUMBER, Y = Gcodes.INVALID_NUMBER, Z = Gcodes.INVALID_NUMBER, E = Gcodes.INVALID_NUMBER, F = Gcodes.INVALID_NUMBER, S = Gcodes.INVALID_NUMBER;
-
-    static decimal CustomParseFloat(string input) {
-        int n = 0;
-        int decimalPosition = input.Length;
-        for (int k = 0; k < input.Length; k++) {
-            char c = input[k];
-            if (c == '.')
-                decimalPosition = k + 1;
-            else
-                n = (n * 10) + (int)(c - '0');
-        }
-        return new decimal((int)n, (int)(n >> 32), 0, false, (byte)(input.Length - decimalPosition));
-    }
-
-    /// <summary>
-    ///     An optimized string to float conversion method, without error checking.
-    /// </summary>
-    /// <param name="input">The string that will be converted to the float.</param>
-    private static float StringToFloat(string input) {
-        float number = 0;
-        int length = input.Length;
-        int decimalPosition = length;
-        bool negative = input[0] == '-';
-        int begin = (negative ? 1 : 0);
-        for (int i = begin; i < length; i++) {
-            char character = input[i];
-
-            if (character == '.') {
-                decimalPosition = i + 1;
-            } else {
-                number = (number * 10) + (character - '0');
-            }
-        }
-
-        float result = ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
-        return result;
-    }
-
-    public List<string> NumberSplit(string text) {
-        List<string> command = new List<string>();
-        int start = 0;
-        for (int i=0;i<text.Length;i++){
-            if(char.IsUpper(text[i])) {
-                if(start < i) {
-                    command.Add(text.Substring(start, i - start).Trim());
-                }
-                start = i;
-            }
-        }
-        command.Add(text.Substring(start, text.Length - start).Trim());
-        
-        return command;
-    }
 
     /// <summary>
     ///     This constructor will convert a string of text into a GcodeCommand object if a single gcode command represents the text.
@@ -83,7 +31,7 @@ public class GcodeCommand {
         }
 
         // Split individual sub-commands and save them into the dictionary.
-        List<string> subCommandsUnchanged = new List<string>(text.Split(' '));
+        var subCommandsUnchanged = new List<string>(text.Split(' '));
         if(subCommandsUnchanged.Count == 1) {
             subCommandsUnchanged = NumberSplit(text);
         }
@@ -126,5 +74,45 @@ public class GcodeCommand {
     /// </summary>
     public int GetCommandType() {
         return Type;
+    }
+
+    /// <summary>
+    ///     An optimized string to float conversion method, without error checking.
+    /// </summary>
+    /// <param name="input">The string that will be converted to the float.</param>
+    private static float StringToFloat(string input) {
+        float number = 0;
+        int length = input.Length;
+        int decimalPosition = length;
+        bool negative = input[0] == '-';
+        int begin = (negative ? 1 : 0);
+        for (int i = begin; i < length; i++) {
+            char character = input[i];
+
+            if (character == '.') {
+                decimalPosition = i + 1;
+            } else {
+                number = (number * 10) + (character - '0');
+            }
+        }
+
+        float result = ((negative ? -1 : 1) * number) / Mathf.Pow(10, length - decimalPosition);
+        return result;
+    }
+
+    private List<string> NumberSplit(string text) {
+        var command = new List<string>();
+        int start = 0;
+        for (int i = 0; i < text.Length; i++) {
+            if (char.IsUpper(text[i])) {
+                if (start < i) {
+                    command.Add(text.Substring(start, i - start).Trim());
+                }
+                start = i;
+            }
+        }
+        command.Add(text.Substring(start, text.Length - start).Trim());
+
+        return command;
     }
 }
