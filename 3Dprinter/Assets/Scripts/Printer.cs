@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Printer : MonoBehaviour {
@@ -33,6 +34,8 @@ public class Printer : MonoBehaviour {
     public Vector3 TargetPosition;
     public float TargetPositionExtruder=0;
     public float Thickness;
+
+    public string GcodeFile;
     
     private float DistanceToMoveHead;
 
@@ -162,7 +165,6 @@ public class Printer : MonoBehaviour {
     }
 
 	void Start () {
-		
 	}
 	
 	void FixedUpdate () {
@@ -181,6 +183,20 @@ public class Printer : MonoBehaviour {
             if (maxAllowedTime <= 0) {
                 break;
             }
+        }
+    }
+
+    public void SelectFile() {
+        if (!GcodeLoader.ModelLoaded) {
+            string path = EditorUtility.OpenFilePanel("Select G-code file", "", "gcode");
+            if (path != "" && path != null) {
+                GcodeFile = path;
+                GcodeLoader.Load(GcodeFile);
+            }
+        }
+        else {
+            EditorUtility.DisplayDialog("Select G-code file", "The printer is still printing another model", "OK");
+            return;
         }
     }
 }

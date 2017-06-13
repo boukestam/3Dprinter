@@ -18,10 +18,10 @@ public class UIController : MonoBehaviour {
     
     GameObject SimulationDetails;
     private Text TimeMultiplier;
+    private Text File;
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Printer = (Printer)GameObject.Find("Printer").GetComponent("Printer");
 
         PrinterStats = GameObject.Find("PrinterStats");
@@ -37,6 +37,7 @@ public class UIController : MonoBehaviour {
         SimulationDetails = GameObject.Find("SimulationDetails");
 
         TimeMultiplier = SimulationDetails.transform.FindChild("TimeMultiplierData").gameObject.GetComponent<Text>();
+        File = SimulationDetails.transform.FindChild("FileData").gameObject.GetComponent<Text>();        
     }
 
     // Update is called once per frame
@@ -51,5 +52,7 @@ public class UIController : MonoBehaviour {
         BedHeigth.text = Printer.CurrentPosition.y.ToString(format) + " mm";
 
         TimeMultiplier.text = Printer.TimeMultiplier.ToString(format) + " X";
+        string file = Printer.GcodeFile;
+        File.text = file.Substring(file.LastIndexOf('/') + 1);
     }
 }

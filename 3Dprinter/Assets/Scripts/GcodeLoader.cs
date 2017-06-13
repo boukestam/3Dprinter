@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 using System;
+using UnityEditor;
 
 /// <summary>
 ///     The GcodeLoader loads gcode from a file into memory. It is also used to loop through the gcode commands to let the Printer class execute the commands.
@@ -11,7 +12,7 @@ using System;
 public class GcodeLoader : MonoBehaviour {
 
     /// <param name="ModelLoaded">Boolean representing if a model has already been loaded into the gcode.</param>
-    private bool ModelLoaded = false;
+    public bool ModelLoaded = false;
 
     /// <param name="Commands">A list containing all gcode commands.</param>
     private List<GcodeCommand> Commands = new List<GcodeCommand>();
@@ -20,7 +21,6 @@ public class GcodeLoader : MonoBehaviour {
     int CommandsIndex = 0;
 
     void Awake() {
-        Load("Assets/Bunny.gcode", Commands);
     }
 
     /// <summary>
@@ -82,7 +82,15 @@ public class GcodeLoader : MonoBehaviour {
     ///     Loads all gcode from a file into memory and links all variables in the gcode into a structured class.
     /// </summary>
     /// <param name="filename">The name of the file where to load the gcode from.</param>
-    /// // <param name="newCommands">The list where all gcode commands will be stored in.</param>
+    public void Load(string filename) {
+        Load(filename, Commands);
+    }
+
+    /// <summary>
+    ///     Loads all gcode from a file into memory and links all variables in the gcode into a structured class.
+    /// </summary>
+    /// <param name="filename">The name of the file where to load the gcode from.</param>
+    /// <param name="newCommands">The list where all gcode commands will be stored in.</param>
     private void Load(string filename, List<GcodeCommand> newCommands) {
         long beginTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         newCommands.Clear();
