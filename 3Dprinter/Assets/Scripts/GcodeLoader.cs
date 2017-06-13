@@ -9,7 +9,7 @@ using UnityEditor;
 /// <summary>
 ///     The GcodeLoader loads gcode from a file into memory. It is also used to loop through the gcode commands to let the Printer class execute the commands.
 /// </summary>
-public class GcodeLoader : MonoBehaviour {
+public class GcodeLoader {
 
     /// <param name="ModelLoaded">Boolean representing if a model has already been loaded into the gcode.</param>
     public bool ModelLoaded = false;
@@ -19,9 +19,6 @@ public class GcodeLoader : MonoBehaviour {
 
     /// <param name="CommandsIndex">The current index of the last read gcode command. Used for the NextGcodeCommand function.</param>
     private int CommandsIndex = 0;
-
-    void Awake() {
-    }
 
     /// <summary>
     ///     Handles moving to the new Gcode command and then calls another function to execute the command for the Printer object.
@@ -38,7 +35,7 @@ public class GcodeLoader : MonoBehaviour {
     /// <summary>
     ///     Returns true if the end of the gcode has been reached.
     /// </summary>
-    private bool EndOfGcode() {
+    public bool EndOfGcode() {
         return CommandsIndex >= Commands.Count;
     }
 

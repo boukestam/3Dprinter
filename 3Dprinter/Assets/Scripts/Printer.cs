@@ -40,7 +40,7 @@ public class Printer : MonoBehaviour {
     private float PreviousToStep = 0;
 
     void Awake() {
-        GcodeLoader = GameObject.FindObjectOfType<GcodeLoader>();
+        GcodeLoader = new GcodeLoader();
         FilamentManager = GameObject.FindObjectOfType<FilamentManager>();
     }
 
