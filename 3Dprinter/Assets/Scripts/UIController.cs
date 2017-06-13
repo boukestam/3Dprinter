@@ -7,14 +7,14 @@ public class UIController : MonoBehaviour {
 
     private Printer Printer;
 
-    GameObject PrinterStats;
+    private GameObject PrinterDetails;
     private Text ExtruderTemperature;
     private Text BedTemperature;
     private Text FeedRate;
     private Text ExtrusionPosition;
-    private Text ExtruderXPosition;
-    private Text ExtruderYPosition;
-    private Text BedHeigth;
+    private Text ExtruderPositionX;
+    private Text ExtruderPositionY;
+    private Text BedHeight;
     
     GameObject SimulationDetails;
     private Text TimeMultiplier;
@@ -24,15 +24,15 @@ public class UIController : MonoBehaviour {
     void Start () {
         Printer = (Printer)GameObject.Find("Printer").GetComponent("Printer");
 
-        PrinterStats = GameObject.Find("PrinterStats");
+        PrinterDetails = GameObject.Find("PrinterDetails");
 
-        ExtruderTemperature = PrinterStats.transform.FindChild("TempExtruderData").gameObject.GetComponent<Text>();
-        BedTemperature = PrinterStats.transform.FindChild("TempBedData").gameObject.GetComponent<Text>();
-        FeedRate = PrinterStats.transform.FindChild("FeedRateData").gameObject.GetComponent<Text>();
-        ExtrusionPosition = PrinterStats.transform.FindChild("ExtrusionPositionData").gameObject.GetComponent<Text>();
-        ExtruderXPosition = PrinterStats.transform.FindChild("ExtruderPositionXData").gameObject.GetComponent<Text>();
-        ExtruderYPosition = PrinterStats.transform.FindChild("ExtruderPositionYData").gameObject.GetComponent<Text>();
-        BedHeigth = PrinterStats.transform.FindChild("BedPositionData").gameObject.GetComponent<Text>();
+        ExtruderTemperature = PrinterDetails.transform.FindChild("TempExtruderData").gameObject.GetComponent<Text>();
+        BedTemperature = PrinterDetails.transform.FindChild("TempBedData").gameObject.GetComponent<Text>();
+        FeedRate = PrinterDetails.transform.FindChild("FeedRateData").gameObject.GetComponent<Text>();
+        ExtrusionPosition = PrinterDetails.transform.FindChild("ExtrusionPositionData").gameObject.GetComponent<Text>();
+        ExtruderPositionX = PrinterDetails.transform.FindChild("ExtruderPositionXData").gameObject.GetComponent<Text>();
+        ExtruderPositionY = PrinterDetails.transform.FindChild("ExtruderPositionYData").gameObject.GetComponent<Text>();
+        BedHeight = PrinterDetails.transform.FindChild("BedPositionData").gameObject.GetComponent<Text>();
 
         SimulationDetails = GameObject.Find("SimulationDetails");
 
@@ -47,12 +47,12 @@ public class UIController : MonoBehaviour {
         BedTemperature.text = Printer.CurrentBedTemperature.ToString(format) + " °C";
         FeedRate.text = Printer.FeedRatePerMinute.ToString("0") + " mm/min";
         ExtrusionPosition.text = Printer.CurrentPositionExtruder.ToString(format) + " mm";
-        ExtruderXPosition.text = Printer.CurrentPosition.x.ToString(format) + " mm";
-        ExtruderYPosition.text = Printer.CurrentPosition.z.ToString(format) + " mm";
-        BedHeigth.text = Printer.CurrentPosition.y.ToString(format) + " mm";
+        ExtruderPositionX.text = Printer.CurrentPosition.x.ToString(format) + " mm";
+        ExtruderPositionY.text = Printer.CurrentPosition.z.ToString(format) + " mm";
+        BedHeight.text = Printer.CurrentPosition.y.ToString(format) + " mm";
 
         TimeMultiplier.text = Printer.TimeMultiplier.ToString(format) + " X";
-        string file = Printer.GcodeFile;
-        File.text = file.Substring(file.LastIndexOf('/') + 1);
+        string temp = Printer.GcodeFile;
+        File.text = temp.Substring(temp.LastIndexOf('/') + 1);
     }
 }

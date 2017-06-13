@@ -4,42 +4,77 @@ using UnityEditor;
 using UnityEngine;
 
 public class Printer : MonoBehaviour {
-    
+    public string GcodeFile;
+
     public float MaxHeadSpeed;
     public float Accuracy;
 
     public float TimeMultiplier;
 
-    private GcodeLoader GcodeLoader;
-    private FilamentManager FilamentManager;
-    
-    private bool Busy;
-
-    public float FeedRatePerMinute;
-    public float FeedRatePerSecond;
-
-
     public float CurrentExtruderTemperature;
     public float CurrentBedTemperature;
 
-    public float TargetExtruderTemperature;
-    public float TargetBedTemperature;
-
-    public Vector3 StartPosition;
-    public float StartPositionExtruder;
-
     public Vector3 CurrentPosition;
     public float CurrentPositionExtruder;
-    
-    public Vector3 TargetPosition;
-    public float TargetPositionExtruder=0;
-    public float Thickness;
 
-    public string GcodeFile;
-    
+    public float FeedRatePerMinute;
+    private float FeedRatePerSecond;
+
+    private float TargetExtruderTemperature;
+    private float TargetBedTemperature;
+
+    private Vector3 StartPosition;
+    private float StartPositionExtruder;
+
+    private Vector3 TargetPosition;
+    private float TargetPositionExtruder=0;
+    private float Thickness;
+
+    private GcodeLoader GcodeLoader;
+    private FilamentManager FilamentManager;
+
+    private bool Busy;
+
     private float DistanceToMoveHead;
 
-    private float previousToStep = 0;
+    private float PreviousToStep = 0;
+
+    void Awake() {
+        GcodeLoader = GameObject.FindObjectOfType<GcodeLoader>();
+        FilamentManager = GameObject.FindObjectOfType<FilamentManager>();
+    }
+
+    void FixedUpdate() {
+        float updateStartTime = Time.realtimeSinceStartup;
+        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.75f;
+
+        float maxAllowedTime = TimeMultiplier * Time.fixedDeltaTime;
+        while (updateLength > Time.realtimeSinceStartup) {
+            Busy = !ValidateProgress();
+            if (!Busy) {
+                if (!GcodeLoader.ExecuteNextCommand(this)) {
+                    break;
+                }
+            }
+            maxAllowedTime -= Step(maxAllowedTime);
+            if (maxAllowedTime <= 0) {
+                break;
+            }
+        }
+    }
+
+    public void SelectFile() {
+        if (!GcodeLoader.ModelLoaded) {
+            string path = EditorUtility.OpenFilePanel("Select G-code file", "", "gcode");
+            if (path != "" && path != null) {
+                GcodeFile = path;
+                GcodeLoader.Load(GcodeFile);
+            }
+        } else {
+            EditorUtility.DisplayDialog("Select G-code file", "The printer is still printing another model", "OK");
+            return;
+        }
+    }
 
     /// <summary>
     /// This function sets the TimeMultiplier. This param influences the simulation speed. 
@@ -86,12 +121,14 @@ public class Printer : MonoBehaviour {
 
     public void SetExtruderTemperature(float temperature) {
         TargetExtruderTemperature = temperature;
+        if (TargetExtruderTemperature > 0) { } // Make the unused go warning go away
         //hack;
         CurrentExtruderTemperature = temperature;
     }
 
     public void SetBedTemperature(float temperature) {
         TargetBedTemperature = temperature;
+        if (TargetBedTemperature > 0) { } // Make the unused go warning go away
         //hack;
         CurrentBedTemperature = temperature;
     }
@@ -120,20 +157,20 @@ public class Printer : MonoBehaviour {
         if (DistanceToMoveHead == 0) {
             return 0;
         }
-        float timeToFinish = DistanceToMoveHead * (1 - previousToStep) / FeedRatePerSecond;
+        float timeToFinish = DistanceToMoveHead * (1 - PreviousToStep) / FeedRatePerSecond;
         float timeToUse = Mathf.Min(timeToFinish, maxAllowedTime);
         float toStep = timeToUse / timeToFinish;
-        toStep += previousToStep;
+        toStep += PreviousToStep;
         if (toStep >= 1) {
             toStep = 1;
-            previousToStep = 0;
+            PreviousToStep = 0;
         } else {
-            previousToStep = toStep;
+            PreviousToStep = toStep;
         }
 
         CurrentPosition = Vector3.Lerp(StartPosition, TargetPosition, toStep);
         CurrentPositionExtruder = Mathf.Lerp(StartPositionExtruder, TargetPositionExtruder, toStep);
-        if(Thickness > 0.0001f) {
+        if (Thickness > 0.0001f) {
             FilamentManager.AddFilament(StartPosition, CurrentPosition, Thickness);
         }
         return timeToUse;
@@ -155,48 +192,7 @@ public class Printer : MonoBehaviour {
     /// </summary>
     /// <param name="param">parameter to validate</param>
     private bool ValidateParameter(float param) {
-        bool valid = ((int)param != (int)Gcodes.INVALID_NUMBER);
+        bool valid = ((int)param != (int)GMcodes.InvalidNumber);
         return valid;
-    }
-
-    void Awake() {
-        GcodeLoader = GameObject.FindObjectOfType<GcodeLoader>();
-        FilamentManager = GameObject.FindObjectOfType<FilamentManager>();
-    }
-
-	void Start () {
-	}
-	
-	void FixedUpdate () {
-        float updateStartTime = Time.realtimeSinceStartup;
-        float updateLength = updateStartTime + Time.fixedDeltaTime * 0.75f;
-
-        float maxAllowedTime = TimeMultiplier * Time.fixedDeltaTime;
-        while (updateLength > Time.realtimeSinceStartup) {
-            Busy = !ValidateProgress();
-            if (!Busy) {
-                if (!GcodeLoader.ExecuteNextCommand(this)) {
-                    break;
-                }
-            }
-            maxAllowedTime -= Step(maxAllowedTime);
-            if (maxAllowedTime <= 0) {
-                break;
-            }
-        }
-    }
-
-    public void SelectFile() {
-        if (!GcodeLoader.ModelLoaded) {
-            string path = EditorUtility.OpenFilePanel("Select G-code file", "", "gcode");
-            if (path != "" && path != null) {
-                GcodeFile = path;
-                GcodeLoader.Load(GcodeFile);
-            }
-        }
-        else {
-            EditorUtility.DisplayDialog("Select G-code file", "The printer is still printing another model", "OK");
-            return;
-        }
     }
 }

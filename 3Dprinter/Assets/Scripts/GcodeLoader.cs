@@ -18,16 +18,9 @@ public class GcodeLoader : MonoBehaviour {
     private List<GcodeCommand> Commands = new List<GcodeCommand>();
 
     /// <param name="CommandsIndex">The current index of the last read gcode command. Used for the NextGcodeCommand function.</param>
-    int CommandsIndex = 0;
+    private int CommandsIndex = 0;
 
     void Awake() {
-    }
-
-    /// <summary>
-    ///     Returns true if the end of the gcode has been reached.
-    /// </summary>
-    private bool EndOfGcode() {
-        return CommandsIndex >= Commands.Count;
     }
 
     /// <summary>
@@ -43,6 +36,13 @@ public class GcodeLoader : MonoBehaviour {
     }
 
     /// <summary>
+    ///     Returns true if the end of the gcode has been reached.
+    /// </summary>
+    private bool EndOfGcode() {
+        return CommandsIndex >= Commands.Count;
+    }
+
+    /// <summary>
     ///     Determines the command to execute and then calls the matching function with parameters to the Printer object.
     /// </summary>
     /// <param name="command">The command object that will contain all information of the command.</param>
@@ -50,27 +50,27 @@ public class GcodeLoader : MonoBehaviour {
     private void ExecuteCommand(GcodeCommand command, Printer printer) {
         //string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
         switch (command.GetCommandType()) {
-            case Gcodes.MOVE0:
-            case Gcodes.MOVE1:
+            case GMcodes.Move0:
+            case GMcodes.Move1:
                 printer.Move(command.X, command.Y, command.Z, command.E, command.F);
                 break;
-            case Gcodes.HOME_AXIS:
+            case GMcodes.HomeAxis:
                 printer.HomeAllAxis();
                 break;
-            case Gcodes.SET_ABSOLUTE:
+            case GMcodes.SetAbsolute:
                 break;
-            case Gcodes.SET_CURRENT_POS:
+            case GMcodes.SetCurrentPosition:
                 break;
-            case Gcodes.FAN_ON:
+            case GMcodes.FanOn:
                 break;
-            case Gcodes.FAN_OFF:
+            case GMcodes.FanOff:
                 break;
-            case Gcodes.SET_EXTRUDER_TEMP:
-            case Gcodes.SET_EXTRUDER_TEMP2:
+            case GMcodes.SetExtruderTemperature1:
+            case GMcodes.SetExtruderTemperature2:
                 printer.SetExtruderTemperature(command.S);
                 break;
-            case Gcodes.SET_BED_TEMP:
-            case Gcodes.SET_BED_TEMP2:
+            case GMcodes.SetBedTemperature1:
+            case GMcodes.SetBedTemperature2:
                 printer.SetBedTemperature(command.S);
                 break;
             default:
@@ -100,7 +100,7 @@ public class GcodeLoader : MonoBehaviour {
         var fileReader = new System.IO.StreamReader(filestream, System.Text.Encoding.UTF8, true, 128);
         string line;
         while ((line = fileReader.ReadLine()) != null) {
-            GcodeCommand command = new GcodeCommand(line);
+            var command = new GcodeCommand(line);
             if (command.IsValid()) {
                 newCommands.Add(command);
             } else {
