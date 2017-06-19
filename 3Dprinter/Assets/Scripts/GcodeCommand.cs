@@ -7,9 +7,23 @@ using UnityEngine;
 /// </summary>
 public class GcodeCommand {
     [HideInInspector]
-    public float X = GMcodes.InvalidNumber, Y = GMcodes.InvalidNumber, Z = GMcodes.InvalidNumber, E = GMcodes.InvalidNumber, F = GMcodes.InvalidNumber, S = GMcodes.InvalidNumber;
+    /// <param name="X">This float is one of the possible parameters for a single G-code command.</param>
+    public float X = GMcodes.InvalidNumber;
+    /// <param name="Y">This float is one of the possible parameters for a single G-code command.</param>
+    public float Y = GMcodes.InvalidNumber;
+    /// <param name="Z">This float is one of the possible parameters for a single G-code command.</param>
+    public float Z = GMcodes.InvalidNumber;
+    /// <param name="E">This float is one of the possible parameters for a single G-code command.</param>
+    public float E = GMcodes.InvalidNumber;
+    /// <param name="F">This float is one of the possible parameters for a single G-code command.</param>
+    public float F = GMcodes.InvalidNumber;
+    /// <param name="S">This float is one of the possible parameters for a single G-code command.</param>
+    public float S = GMcodes.InvalidNumber;
 
+    /// <param name="Type">Contains the value identified the type of G-code command.</param>
     private int Type;
+
+    /// <param name="Valid">Boolean that represenents true if this is a valid G-code command.</param>
     private bool Valid = true;
 
     /// <summary>
@@ -65,13 +79,15 @@ public class GcodeCommand {
     /// <summary>
     ///     Returns true if a valid GcodeCommand has been initialized.
     /// </summary>
+    /// <returns>The boolean containing if the GcodeCommand has been initialized if true, otherwise false.</returns>
     public bool IsValid() {
         return Valid;
     }
 
     /// <summary>
-    ///     Returns the type of GcodeCommand. This type determines what type of action the gcode command is.
+    ///     This function gives back the type of GcodeCommand.
     /// </summary>
+    /// <returns>Returns the type of GcodeCommand. This type determines what type of action the gcode command is.</returns>
     public int GetCommandType() {
         return Type;
     }
@@ -80,6 +96,7 @@ public class GcodeCommand {
     ///     An optimized string to float conversion method, without error checking.
     /// </summary>
     /// <param name="input">The string that will be converted to the float.</param>
+    /// <returns>Returns the resulting float from the string input.</returns>
     private static float StringToFloat(string input) {
         float number = 0;
         int length = input.Length;
@@ -100,6 +117,11 @@ public class GcodeCommand {
         return result;
     }
 
+    /// <summary>
+    ///     This function converts a string to a List of floating numbers that are still in string form.
+    /// </summary>
+    /// <param name="text">The input text that will be converted.</param>
+    /// <returns>Returns the list of numbers that were split from the input text.</returns>
     private List<string> NumberSplit(string text) {
         var command = new List<string>();
         int start = 0;

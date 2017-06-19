@@ -1,0 +1,173 @@
+\hypertarget{class_filament_manager}{}\section{Filament\+Manager Class Reference}
+\label{class_filament_manager}\index{Filament\+Manager@{Filament\+Manager}}
+
+
+The filament manager manages the spawning of filement meshes in the scene.  
+
+
+Inheritance diagram for Filament\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_filament_manager}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_filament_manager_afda4accf27e892725d2a9974607421b6}{Add\+Filament} (Vector3 from, Vector3 to, float thickness)
+\begin{DoxyCompactList}\small\item\em Adds a piece of filament to the simulation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_filament_manager_ab870c17f0e1e66687fb56bfc46e9c2be}\label{class_filament_manager_ab870c17f0e1e66687fb56bfc46e9c2be}} 
+void {\bfseries Start} ()
+\item 
+void \hyperlink{class_filament_manager_a088bc0f0147322c2970612c3b535cc3f}{Combine\+Temp} ()
+\begin{DoxyCompactList}\small\item\em Combines all temporary objects into a single mesh \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_filament_manager_a5e5d2ab663216f296edbf4b408c77b10}\label{class_filament_manager_a5e5d2ab663216f296edbf4b408c77b10}} 
+Game\+Object \hyperlink{class_filament_manager_a5e5d2ab663216f296edbf4b408c77b10}{Empty\+Filament}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Empty\+Filament} & This object is used to add an empty mesh object to the scene. This object is then used to combine filament into one mesh.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_ae127047f9f8d605818d2543182b9967a}\label{class_filament_manager_ae127047f9f8d605818d2543182b9967a}} 
+Mesh \hyperlink{class_filament_manager_ae127047f9f8d605818d2543182b9967a}{Filament\+Mesh}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Filament\+Mesh} & This object is used to make a copy from the filament mesh resource.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a8a828b6fbdf60b77008801299aa6c71d}\label{class_filament_manager_a8a828b6fbdf60b77008801299aa6c71d}} 
+int \hyperlink{class_filament_manager_a8a828b6fbdf60b77008801299aa6c71d}{Vertices\+Per\+Mesh}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Vertices\+Per\+Mesh} & Amount of vertices in the filament mesh.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a9401bd69ba21204265cd78a9a94e5b25}\label{class_filament_manager_a9401bd69ba21204265cd78a9a94e5b25}} 
+int \hyperlink{class_filament_manager_a9401bd69ba21204265cd78a9a94e5b25}{Max\+Vertices\+Per\+Mesh} = 65536
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Max\+Vertices\+Per\+Mesh} & Maximum number of vertices allowed in a Unity mesh (16 bit).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_af7195c81156bf891185196a90f6459ca}\label{class_filament_manager_af7195c81156bf891185196a90f6459ca}} 
+int \hyperlink{class_filament_manager_af7195c81156bf891185196a90f6459ca}{Filaments\+Per\+Mesh}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Filaments\+Per\+Mesh} & The amount of filaments that fit in a single mesh (Max\+Vertices\+Per\+Mesh / Vertices\+Per\+Mesh).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_ac2355633fcdba276a7759483288e2555}\label{class_filament_manager_ac2355633fcdba276a7759483288e2555}} 
+List$<$ Game\+Object $>$ \hyperlink{class_filament_manager_ac2355633fcdba276a7759483288e2555}{Objects}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Objects} & The objects containing the combined meshes.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a22596f86cb407fa0a91b7c3118ea2284}\label{class_filament_manager_a22596f86cb407fa0a91b7c3118ea2284}} 
+Game\+Object \mbox{[}$\,$\mbox{]} \hyperlink{class_filament_manager_a22596f86cb407fa0a91b7c3118ea2284}{Temp\+Objects}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Temp\+Objects} & List of temporary gameobjects.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_ae8591a3fbaae0dffffd99eb1ffd6416f}\label{class_filament_manager_ae8591a3fbaae0dffffd99eb1ffd6416f}} 
+int \hyperlink{class_filament_manager_ae8591a3fbaae0dffffd99eb1ffd6416f}{Max\+Temp\+Objects} = 2500
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Max\+Temp\+Objects} & Maximum number of temporary gameobjects until they are combined.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a9608a8f52bbfa6090658273943af3168}\label{class_filament_manager_a9608a8f52bbfa6090658273943af3168}} 
+int \hyperlink{class_filament_manager_a9608a8f52bbfa6090658273943af3168}{Temp\+Index} = 0
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Temp\+Index} & Index to store temporary object.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a783a989e028c64956987bfb3ca55c782}\label{class_filament_manager_a783a989e028c64956987bfb3ca55c782}} 
+int \hyperlink{class_filament_manager_a783a989e028c64956987bfb3ca55c782}{Filament\+Count} = 0
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Filament\+Count} & Amount of filaments created.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a209bee6c4f118778aa221fa7642c185f}\label{class_filament_manager_a209bee6c4f118778aa221fa7642c185f}} 
+Vector3 \hyperlink{class_filament_manager_a209bee6c4f118778aa221fa7642c185f}{Previous\+From}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Filament\+Count} & Location of the previous filament, when a new object is added at the same location, it will extend the old.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_filament_manager_a0b66beb7f8c31aee2c3c03c2917129b4}\label{class_filament_manager_a0b66beb7f8c31aee2c3c03c2917129b4}} 
+const string {\bfseries Grouped\+Filament\+Name} = \char`\"{}Grouped\+Filament\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_filament_manager_a0701818c4123f615adeb651037cec8cb}\label{class_filament_manager_a0701818c4123f615adeb651037cec8cb}} 
+static Vector3 \hyperlink{class_filament_manager_a0701818c4123f615adeb651037cec8cb}{Totally\+Random} = new Vector3(39642f, 43785f, 325346f)
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Totally\+Random} & Random vector to unset Previous\+From (Vector3 can\textquotesingle{}t be set to null).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The filament manager manages the spawning of filement meshes in the scene. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_filament_manager_afda4accf27e892725d2a9974607421b6}\label{class_filament_manager_afda4accf27e892725d2a9974607421b6}} 
+\index{Filament\+Manager@{Filament\+Manager}!Add\+Filament@{Add\+Filament}}
+\index{Add\+Filament@{Add\+Filament}!Filament\+Manager@{Filament\+Manager}}
+\subsubsection{\texorpdfstring{Add\+Filament()}{AddFilament()}}
+{\footnotesize\ttfamily void Filament\+Manager.\+Add\+Filament (\begin{DoxyParamCaption}\item[{Vector3}]{from,  }\item[{Vector3}]{to,  }\item[{float}]{thickness }\end{DoxyParamCaption})}
+
+
+
+Adds a piece of filament to the simulation 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & Start position\\
+\hline
+{\em to} & End position\\
+\hline
+{\em thickness} & Radius of the thickness of the filament\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_filament_manager_a088bc0f0147322c2970612c3b535cc3f}\label{class_filament_manager_a088bc0f0147322c2970612c3b535cc3f}} 
+\index{Filament\+Manager@{Filament\+Manager}!Combine\+Temp@{Combine\+Temp}}
+\index{Combine\+Temp@{Combine\+Temp}!Filament\+Manager@{Filament\+Manager}}
+\subsubsection{\texorpdfstring{Combine\+Temp()}{CombineTemp()}}
+{\footnotesize\ttfamily void Filament\+Manager.\+Combine\+Temp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Combines all temporary objects into a single mesh 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/Filament\+Manager.\+cs\end{DoxyCompactItemize}

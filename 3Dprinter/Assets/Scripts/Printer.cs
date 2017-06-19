@@ -3,40 +3,65 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+///     This class progresses the printprocess and is used as central control unit in executing G-code commands.
+/// </summary>
 public class Printer : MonoBehaviour {
+    /// <param name="GcodeFile">The path of the current selected G-code file that will be printed.</param>
     public string GcodeFile;
 
+    /// <param name="MaxHeadSpeed">The maximum allowed speed of the print head in feedrate/minute.</param>
     public float MaxHeadSpeed;
+    /// <param name="Accuracy">This number is used to determine if two floating points are about the same value by using this number as maximum allowed difference.</param>
     public float Accuracy;
 
+    /// <param name="TimeMultiplier">The current time speed of the printing process in contrast to real time printing speed.</param>
     public float TimeMultiplier;
 
+    /// <param name="CurrentExtruderTemperature">The current temperature of the extruder. Used for comparison with the target temperature.</param>
     public float CurrentExtruderTemperature;
+    /// <param name="CurrentBedTemperature">The current temperature of the bed. Used for comparison with the target temperature.</param>
     public float CurrentBedTemperature;
 
+    /// <param name="CurrentPosition">The current position of the filament needle on the x and z axis. And the print bed position on the y axis.</param>
     public Vector3 CurrentPosition;
+    /// <param name="CurrentPositionExtruder">The current position of the extruder. Used to determine how much extrusion needs to be added to the print model.</param>
     public float CurrentPositionExtruder;
 
+    /// <param name="FeedRatePerMinute">The current feedrate/minute of the print needle moving around to print.</param>
     public float FeedRatePerMinute;
+    /// <param name="FeedRatePerSecond">The current feedrate/second of the print needle moving around to print.</param>
     private float FeedRatePerSecond;
 
+    /// <param name="TargetExtruderTemperature">The target temperature of the extruder.</param>
     private float TargetExtruderTemperature;
+    /// <param name="TargetBedTemperature">The target temperature of the bed.</param>
     private float TargetBedTemperature;
 
+    /// <param name="StartPosition">The start position of the current executing print command. Do not confuse this with CurrentPosition.</param>
     private Vector3 StartPosition;
+    /// <param name="StartPositionExtruder">The start extruder position of the current executing print command. Do not confuse this with CurrentPositionExtruder.</param>
     private float StartPositionExtruder;
 
+    /// <param name="TargetPosition">The target/goal position of the current executing print command.</param>
     private Vector3 TargetPosition;
+    /// <param name="TargetPositionExtruder">The target/goal extruder position of the current executing print command.</param>
     private float TargetPositionExtruder=0;
+    /// <param name="Thickness">The thickness of the filament in the current print command. This variable is used to tell the FilamentManager to print the filament with the given thickness.</param>
     private float Thickness;
 
+    /// <param name="GcodeLoader">Object of the GcodeLoader that is used to execute all G-code commands.</param>
     private GcodeLoader GcodeLoader;
+    /// <param name="FilamentManager">Object of the FilamentManager that is used to add new filament to the scene.</param>
     private FilamentManager FilamentManager;
 
+    /// <param name="Busy">Boolean that is used to indicate if the printing process is currently active. true if active false if not.</param>
     private bool Busy;
 
+    /// <param name="DistanceToMoveHead">The distance between the StartPosition and TargetPosition.</param>
     private float DistanceToMoveHead;
 
+    /// <param name="PreviousToStep">The last time the local variable toStep was calculated. toStep is the amount moved from StartPosition to TargetPosition given in the range from 0 to 1.</param>
     private float PreviousToStep = 0;
 
     void Awake() {
@@ -63,6 +88,9 @@ public class Printer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// This function is used to trigger a select window to choose a file from the filesystem that has G-code inside it.
+    /// </summary>
     public void SelectFile() {
         if (!GcodeLoader.ModelLoaded) {
             string path = EditorUtility.OpenFilePanel("Select G-code file", "", "gcode");
@@ -79,7 +107,7 @@ public class Printer : MonoBehaviour {
     /// <summary>
     /// This function sets the TimeMultiplier. This param influences the simulation speed. 
     /// </summary>
-    /// <param name="multiplier">multiply factor</param>
+    /// <param name="multiplier">Multiply factor</param>
     public void SetTimeMultiplier(float multiplier) {
         TimeMultiplier = multiplier;
     }
@@ -119,16 +147,24 @@ public class Printer : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Changes the TargetExtruderTemperature of the extruder.
+    /// </summary>
+    /// <param name="temperature">The new target temperature.</param>
     public void SetExtruderTemperature(float temperature) {
         TargetExtruderTemperature = temperature;
-        if (TargetExtruderTemperature > 0) { } // Make the unused go warning go away
+        if (TargetExtruderTemperature > 0) { } // Make the unused warning go away
         //hack;
         CurrentExtruderTemperature = temperature;
     }
 
+    /// <summary>
+    /// Changes the TargetBedTemperature of the bed.
+    /// </summary>
+    /// <param name="temperature">The new target temperature.</param>
     public void SetBedTemperature(float temperature) {
         TargetBedTemperature = temperature;
-        if (TargetBedTemperature > 0) { } // Make the unused go warning go away
+        if (TargetBedTemperature > 0) { } // Make the unused warning go away
         //hack;
         CurrentBedTemperature = temperature;
     }

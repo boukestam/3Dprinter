@@ -1,0 +1,381 @@
+\hypertarget{class_printer}{}\section{Printer Class Reference}
+\label{class_printer}\index{Printer@{Printer}}
+
+
+This class progresses the printprocess and is used as central control unit in executing G-\/code commands.  
+
+
+Inheritance diagram for Printer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_printer}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_printer_aca020f5d2c184af8ecdfd818577815bd}{Select\+File} ()
+\begin{DoxyCompactList}\small\item\em This function is used to trigger a select window to choose a file from the filesystem that has G-\/code inside it. \end{DoxyCompactList}\item 
+void \hyperlink{class_printer_ab90889903063563e05b7c6409a944752}{Set\+Time\+Multiplier} (float multiplier)
+\begin{DoxyCompactList}\small\item\em This function sets the Time\+Multiplier. This param influences the simulation speed. \end{DoxyCompactList}\item 
+void \hyperlink{class_printer_adfa651ad28cdcb1b26f135f32d414f74}{Move} (float x, float y, float z, float extrusion, float feedrate)
+\begin{DoxyCompactList}\small\item\em This function is used to give the printer a new move command, which in G-\/code is G0 or G1. \end{DoxyCompactList}\item 
+void \hyperlink{class_printer_a0a643543a8efddd43be14a38f79bb2f6}{Set\+Extruder\+Temperature} (float temperature)
+\begin{DoxyCompactList}\small\item\em Changes the Target\+Extruder\+Temperature of the extruder. \end{DoxyCompactList}\item 
+void \hyperlink{class_printer_a8c02274e73916d00fd91d396ec1dd0d5}{Set\+Bed\+Temperature} (float temperature)
+\begin{DoxyCompactList}\small\item\em Changes the Target\+Bed\+Temperature of the bed. \end{DoxyCompactList}\item 
+void \hyperlink{class_printer_abd07f61fbe01864e653c30c2712e9f90}{Home\+All\+Axis} ()
+\begin{DoxyCompactList}\small\item\em This function returns all axis to the origin of the printerhead. \end{DoxyCompactList}\item 
+bool \hyperlink{class_printer_a5f4ec3c78049dfb3b29c2d2e069326c2}{Is\+Busy} ()
+\begin{DoxyCompactList}\small\item\em Returns true if the printer is busy executing a command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_printer_a7365c931dcf27f89d8bec83821c907d5}\label{class_printer_a7365c931dcf27f89d8bec83821c907d5}} 
+string \hyperlink{class_printer_a7365c931dcf27f89d8bec83821c907d5}{Gcode\+File}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Gcode\+File} & The path of the current selected G-\/code file that will be printed.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a3684a4faa07bad0e412b8832d5fe5504}\label{class_printer_a3684a4faa07bad0e412b8832d5fe5504}} 
+float \hyperlink{class_printer_a3684a4faa07bad0e412b8832d5fe5504}{Max\+Head\+Speed}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Max\+Head\+Speed} & The maximum allowed speed of the print head in feedrate/minute.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a5865d4c4ced50e876c5f70c51d00e72a}\label{class_printer_a5865d4c4ced50e876c5f70c51d00e72a}} 
+float \hyperlink{class_printer_a5865d4c4ced50e876c5f70c51d00e72a}{Accuracy}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Accuracy} & This number is used to determine if two floating points are about the same value by using this number as maximum allowed difference.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a11c6f4a9064aea0957e6a0ed5c6fd656}\label{class_printer_a11c6f4a9064aea0957e6a0ed5c6fd656}} 
+float \hyperlink{class_printer_a11c6f4a9064aea0957e6a0ed5c6fd656}{Time\+Multiplier}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Time\+Multiplier} & The current time speed of the printing process in contrast to real time printing speed.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a80b4b7ffb6cd2c3ca827f607d9515c79}\label{class_printer_a80b4b7ffb6cd2c3ca827f607d9515c79}} 
+float \hyperlink{class_printer_a80b4b7ffb6cd2c3ca827f607d9515c79}{Current\+Extruder\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Current\+Extruder\+Temperature} & The current temperature of the extruder. Used for comparison with the target temperature.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a5cf3a0f0aa0ed27d0cb197d2b4a39266}\label{class_printer_a5cf3a0f0aa0ed27d0cb197d2b4a39266}} 
+float \hyperlink{class_printer_a5cf3a0f0aa0ed27d0cb197d2b4a39266}{Current\+Bed\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Current\+Bed\+Temperature} & The current temperature of the bed. Used for comparison with the target temperature.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a4e4806b500d06b25ec0dd4d9ea63ab9c}\label{class_printer_a4e4806b500d06b25ec0dd4d9ea63ab9c}} 
+Vector3 \hyperlink{class_printer_a4e4806b500d06b25ec0dd4d9ea63ab9c}{Current\+Position}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Current\+Position} & The current position of the filament needle on the x and z axis. And the print bed position on the y axis.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a22940854321293b4b1002955036877b1}\label{class_printer_a22940854321293b4b1002955036877b1}} 
+float \hyperlink{class_printer_a22940854321293b4b1002955036877b1}{Current\+Position\+Extruder}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Current\+Position\+Extruder} & The current position of the extruder. Used to determine how much extrusion needs to be added to the print model.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a5e795efeadb770ca6d578abb6c673ec3}\label{class_printer_a5e795efeadb770ca6d578abb6c673ec3}} 
+float \hyperlink{class_printer_a5e795efeadb770ca6d578abb6c673ec3}{Feed\+Rate\+Per\+Minute}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Feed\+Rate\+Per\+Minute} & The current feedrate/minute of the print needle moving around to print.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_printer_a602798adcce92661706652544c680d0b}\label{class_printer_a602798adcce92661706652544c680d0b}} 
+void {\bfseries Awake} ()
+\item 
+\mbox{\Hypertarget{class_printer_a61ba75c68460bf63507918ace012055a}\label{class_printer_a61ba75c68460bf63507918ace012055a}} 
+void {\bfseries Fixed\+Update} ()
+\item 
+float \hyperlink{class_printer_a4d61c283439ea47644d326c802fd405a}{Step} (float max\+Allowed\+Time)
+\begin{DoxyCompactList}\small\item\em This function is the simulation step. This function will change the position of the printerhead and printerbed based on the time passed since the last commando. \end{DoxyCompactList}\item 
+bool \hyperlink{class_printer_ab3c07108e5f5d6f7a7fcfaea556988fc}{Validate\+Progress} ()
+\begin{DoxyCompactList}\small\item\em This function returns true if the current\+Position is equal to the Target\+Position. Those to values may divert from each other with the Accuracy value \end{DoxyCompactList}\item 
+bool \hyperlink{class_printer_a2c8c5ca69f0633a9509ff69b03e6406f}{Validate\+Parameter} (float param)
+\begin{DoxyCompactList}\small\item\em This function returns if the parameter given is valid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_printer_aac6b6291d2af1e4d1e472cf5db639c9b}\label{class_printer_aac6b6291d2af1e4d1e472cf5db639c9b}} 
+float \hyperlink{class_printer_aac6b6291d2af1e4d1e472cf5db639c9b}{Feed\+Rate\+Per\+Second}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Feed\+Rate\+Per\+Second} & The current feedrate/second of the print needle moving around to print.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a6e704bc84d01168b42dd90206b503cf0}\label{class_printer_a6e704bc84d01168b42dd90206b503cf0}} 
+float \hyperlink{class_printer_a6e704bc84d01168b42dd90206b503cf0}{Target\+Extruder\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Target\+Extruder\+Temperature} & The target temperature of the extruder.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a540cd163a03db0b13503a3f459298297}\label{class_printer_a540cd163a03db0b13503a3f459298297}} 
+float \hyperlink{class_printer_a540cd163a03db0b13503a3f459298297}{Target\+Bed\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Target\+Bed\+Temperature} & The target temperature of the bed.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_ae1d9793073273a62fb6964617694e7cc}\label{class_printer_ae1d9793073273a62fb6964617694e7cc}} 
+Vector3 \hyperlink{class_printer_ae1d9793073273a62fb6964617694e7cc}{Start\+Position}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Start\+Position} & The start position of the current executing print command. Do not confuse this with Current\+Position.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_acfbb0acc8db7e9b93de243794f8fd48a}\label{class_printer_acfbb0acc8db7e9b93de243794f8fd48a}} 
+float \hyperlink{class_printer_acfbb0acc8db7e9b93de243794f8fd48a}{Start\+Position\+Extruder}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Start\+Position\+Extruder} & The start extruder position of the current executing print command. Do not confuse this with Current\+Position\+Extruder.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_aaa73fb90d38362a53216f0dbfc45a420}\label{class_printer_aaa73fb90d38362a53216f0dbfc45a420}} 
+Vector3 \hyperlink{class_printer_aaa73fb90d38362a53216f0dbfc45a420}{Target\+Position}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Target\+Position} & The target/goal position of the current executing print command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_ae18b84ef2a818e495204d228ab0ae831}\label{class_printer_ae18b84ef2a818e495204d228ab0ae831}} 
+float \hyperlink{class_printer_ae18b84ef2a818e495204d228ab0ae831}{Target\+Position\+Extruder} =0
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Target\+Position\+Extruder} & The target/goal extruder position of the current executing print command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a7c3cca448ff624330921ec4a4a0518cd}\label{class_printer_a7c3cca448ff624330921ec4a4a0518cd}} 
+float \hyperlink{class_printer_a7c3cca448ff624330921ec4a4a0518cd}{Thickness}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Thickness} & The thickness of the filament in the current print command. This variable is used to tell the \hyperlink{class_filament_manager}{Filament\+Manager} to print the filament with the given thickness.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a914dcddbf80cec9995ca744674ce5e34}\label{class_printer_a914dcddbf80cec9995ca744674ce5e34}} 
+\hyperlink{class_gcode_loader}{Gcode\+Loader} \hyperlink{class_printer_a914dcddbf80cec9995ca744674ce5e34}{Gcode\+Loader}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_gcode_loader}{Gcode\+Loader}} & Object of the \hyperlink{class_gcode_loader}{Gcode\+Loader} that is used to execute all G-\/code commands.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a37a3030132627771b1e5725b662eef1b}\label{class_printer_a37a3030132627771b1e5725b662eef1b}} 
+\hyperlink{class_filament_manager}{Filament\+Manager} \hyperlink{class_printer_a37a3030132627771b1e5725b662eef1b}{Filament\+Manager}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_filament_manager}{Filament\+Manager}} & Object of the \hyperlink{class_filament_manager}{Filament\+Manager} that is used to add new filament to the scene.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_abca967ea8795ac4a93a544b71f1e1fcc}\label{class_printer_abca967ea8795ac4a93a544b71f1e1fcc}} 
+bool \hyperlink{class_printer_abca967ea8795ac4a93a544b71f1e1fcc}{Busy}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Busy} & Boolean that is used to indicate if the printing process is currently active. true if active false if not.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a7dfe77b67ff6cff4f91c39fd58198049}\label{class_printer_a7dfe77b67ff6cff4f91c39fd58198049}} 
+float \hyperlink{class_printer_a7dfe77b67ff6cff4f91c39fd58198049}{Distance\+To\+Move\+Head}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Distance\+To\+Move\+Head} & The distance between the Start\+Position and Target\+Position.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_printer_a38bab94c2ea7fa5f2a701581be0c3439}\label{class_printer_a38bab94c2ea7fa5f2a701581be0c3439}} 
+float \hyperlink{class_printer_a38bab94c2ea7fa5f2a701581be0c3439}{Previous\+To\+Step} = 0
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Previous\+To\+Step} & The last time the local variable to\+Step was calculated. to\+Step is the amount moved from Start\+Position to Target\+Position given in the range from 0 to 1.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class progresses the printprocess and is used as central control unit in executing G-\/code commands. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_printer_abd07f61fbe01864e653c30c2712e9f90}\label{class_printer_abd07f61fbe01864e653c30c2712e9f90}} 
+\index{Printer@{Printer}!Home\+All\+Axis@{Home\+All\+Axis}}
+\index{Home\+All\+Axis@{Home\+All\+Axis}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Home\+All\+Axis()}{HomeAllAxis()}}
+{\footnotesize\ttfamily void Printer.\+Home\+All\+Axis (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function returns all axis to the origin of the printerhead. 
+
+\mbox{\Hypertarget{class_printer_a5f4ec3c78049dfb3b29c2d2e069326c2}\label{class_printer_a5f4ec3c78049dfb3b29c2d2e069326c2}} 
+\index{Printer@{Printer}!Is\+Busy@{Is\+Busy}}
+\index{Is\+Busy@{Is\+Busy}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Is\+Busy()}{IsBusy()}}
+{\footnotesize\ttfamily bool Printer.\+Is\+Busy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns true if the printer is busy executing a command. 
+
+\mbox{\Hypertarget{class_printer_adfa651ad28cdcb1b26f135f32d414f74}\label{class_printer_adfa651ad28cdcb1b26f135f32d414f74}} 
+\index{Printer@{Printer}!Move@{Move}}
+\index{Move@{Move}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily void Printer.\+Move (\begin{DoxyParamCaption}\item[{float}]{x,  }\item[{float}]{y,  }\item[{float}]{z,  }\item[{float}]{extrusion,  }\item[{float}]{feedrate }\end{DoxyParamCaption})}
+
+
+
+This function is used to give the printer a new move command, which in G-\/code is G0 or G1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & \hyperlink{class_printer}{Printer} heads destination width (Unity X-\/axis)\\
+\hline
+{\em y} & \hyperlink{class_printer}{Printer} heads destination depth (Unity Z-\/axis)\\
+\hline
+{\em z} & \hyperlink{class_printer}{Printer} heads destination table height (Unity Y-\/axis)\\
+\hline
+{\em extrusion} & The new position of the printer extrusion step motor after moving. This new position is absoluut to the origin of the extrusion step motor.\\
+\hline
+{\em feedrate} & The speed of the printer head movement in mm/minute\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_printer_aca020f5d2c184af8ecdfd818577815bd}\label{class_printer_aca020f5d2c184af8ecdfd818577815bd}} 
+\index{Printer@{Printer}!Select\+File@{Select\+File}}
+\index{Select\+File@{Select\+File}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Select\+File()}{SelectFile()}}
+{\footnotesize\ttfamily void Printer.\+Select\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function is used to trigger a select window to choose a file from the filesystem that has G-\/code inside it. 
+
+\mbox{\Hypertarget{class_printer_a8c02274e73916d00fd91d396ec1dd0d5}\label{class_printer_a8c02274e73916d00fd91d396ec1dd0d5}} 
+\index{Printer@{Printer}!Set\+Bed\+Temperature@{Set\+Bed\+Temperature}}
+\index{Set\+Bed\+Temperature@{Set\+Bed\+Temperature}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Set\+Bed\+Temperature()}{SetBedTemperature()}}
+{\footnotesize\ttfamily void Printer.\+Set\+Bed\+Temperature (\begin{DoxyParamCaption}\item[{float}]{temperature }\end{DoxyParamCaption})}
+
+
+
+Changes the Target\+Bed\+Temperature of the bed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em temperature} & The new target temperature.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_printer_a0a643543a8efddd43be14a38f79bb2f6}\label{class_printer_a0a643543a8efddd43be14a38f79bb2f6}} 
+\index{Printer@{Printer}!Set\+Extruder\+Temperature@{Set\+Extruder\+Temperature}}
+\index{Set\+Extruder\+Temperature@{Set\+Extruder\+Temperature}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Set\+Extruder\+Temperature()}{SetExtruderTemperature()}}
+{\footnotesize\ttfamily void Printer.\+Set\+Extruder\+Temperature (\begin{DoxyParamCaption}\item[{float}]{temperature }\end{DoxyParamCaption})}
+
+
+
+Changes the Target\+Extruder\+Temperature of the extruder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em temperature} & The new target temperature.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_printer_ab90889903063563e05b7c6409a944752}\label{class_printer_ab90889903063563e05b7c6409a944752}} 
+\index{Printer@{Printer}!Set\+Time\+Multiplier@{Set\+Time\+Multiplier}}
+\index{Set\+Time\+Multiplier@{Set\+Time\+Multiplier}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Set\+Time\+Multiplier()}{SetTimeMultiplier()}}
+{\footnotesize\ttfamily void Printer.\+Set\+Time\+Multiplier (\begin{DoxyParamCaption}\item[{float}]{multiplier }\end{DoxyParamCaption})}
+
+
+
+This function sets the Time\+Multiplier. This param influences the simulation speed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em multiplier} & Multiply factor\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_printer_a4d61c283439ea47644d326c802fd405a}\label{class_printer_a4d61c283439ea47644d326c802fd405a}} 
+\index{Printer@{Printer}!Step@{Step}}
+\index{Step@{Step}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Step()}{Step()}}
+{\footnotesize\ttfamily float Printer.\+Step (\begin{DoxyParamCaption}\item[{float}]{max\+Allowed\+Time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This function is the simulation step. This function will change the position of the printerhead and printerbed based on the time passed since the last commando. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Allowed\+Time} & This parameter is used to make a smaller print step. To maintain the Feed\+Rate speed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function returns the time used by this function.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_printer_a2c8c5ca69f0633a9509ff69b03e6406f}\label{class_printer_a2c8c5ca69f0633a9509ff69b03e6406f}} 
+\index{Printer@{Printer}!Validate\+Parameter@{Validate\+Parameter}}
+\index{Validate\+Parameter@{Validate\+Parameter}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Validate\+Parameter()}{ValidateParameter()}}
+{\footnotesize\ttfamily bool Printer.\+Validate\+Parameter (\begin{DoxyParamCaption}\item[{float}]{param }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This function returns if the parameter given is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em param} & parameter to validate\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_printer_ab3c07108e5f5d6f7a7fcfaea556988fc}\label{class_printer_ab3c07108e5f5d6f7a7fcfaea556988fc}} 
+\index{Printer@{Printer}!Validate\+Progress@{Validate\+Progress}}
+\index{Validate\+Progress@{Validate\+Progress}!Printer@{Printer}}
+\subsubsection{\texorpdfstring{Validate\+Progress()}{ValidateProgress()}}
+{\footnotesize\ttfamily bool Printer.\+Validate\+Progress (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This function returns true if the current\+Position is equal to the Target\+Position. Those to values may divert from each other with the Accuracy value 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/Printer.\+cs\end{DoxyCompactItemize}

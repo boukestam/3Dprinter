@@ -1,0 +1,189 @@
+\hypertarget{class_gcode_command}{}\section{Gcode\+Command Class Reference}
+\label{class_gcode_command}\index{Gcode\+Command@{Gcode\+Command}}
+
+
+This class stores a single gcode command.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_gcode_command_aefd8e6144be3153471b2ee5e5fc500de}{Gcode\+Command} (string text)
+\begin{DoxyCompactList}\small\item\em This constructor will convert a string of text into a \hyperlink{class_gcode_command}{Gcode\+Command} object if a single gcode command represents the text. \end{DoxyCompactList}\item 
+bool \hyperlink{class_gcode_command_a21ddb89f360e9a2497855064cda0672a}{Is\+Valid} ()
+\begin{DoxyCompactList}\small\item\em Returns true if a valid \hyperlink{class_gcode_command}{Gcode\+Command} has been initialized. \end{DoxyCompactList}\item 
+int \hyperlink{class_gcode_command_ad40c68e4595b030959155c66fb66f154}{Get\+Command\+Type} ()
+\begin{DoxyCompactList}\small\item\em This function gives back the type of \hyperlink{class_gcode_command}{Gcode\+Command}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_gcode_command_a5b7b9c6bd1f4e1f1ecbace62f323ca72}\label{class_gcode_command_a5b7b9c6bd1f4e1f1ecbace62f323ca72}} 
+float \hyperlink{class_gcode_command_a5b7b9c6bd1f4e1f1ecbace62f323ca72}{X} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em X} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_a27525d0b7ae679a68bee5900fb76b591}\label{class_gcode_command_a27525d0b7ae679a68bee5900fb76b591}} 
+float \hyperlink{class_gcode_command_a27525d0b7ae679a68bee5900fb76b591}{Y} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Y} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_aa6f11f780ad151a1c233b65873369fd6}\label{class_gcode_command_aa6f11f780ad151a1c233b65873369fd6}} 
+float \hyperlink{class_gcode_command_aa6f11f780ad151a1c233b65873369fd6}{Z} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Z} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_ad853d24d1bd2f9a240db21073aa70485}\label{class_gcode_command_ad853d24d1bd2f9a240db21073aa70485}} 
+float \hyperlink{class_gcode_command_ad853d24d1bd2f9a240db21073aa70485}{E} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em E} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_a93dd15b57d51fa236b9ff7451fab7869}\label{class_gcode_command_a93dd15b57d51fa236b9ff7451fab7869}} 
+float \hyperlink{class_gcode_command_a93dd15b57d51fa236b9ff7451fab7869}{F} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em F} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_a3cddf7beda991f104e128f5caee224f1}\label{class_gcode_command_a3cddf7beda991f104e128f5caee224f1}} 
+float \hyperlink{class_gcode_command_a3cddf7beda991f104e128f5caee224f1}{S} = G\+Mcodes.\+Invalid\+Number
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em S} & This float is one of the possible parameters for a single G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ string $>$ \hyperlink{class_gcode_command_a39d602bf1f22666bc0dd2431b15214ed}{Number\+Split} (string text)
+\begin{DoxyCompactList}\small\item\em This function converts a string to a List of floating numbers that are still in string form. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static float \hyperlink{class_gcode_command_a7e60f42effcf4a0053d812e16ffa3895}{String\+To\+Float} (string input)
+\begin{DoxyCompactList}\small\item\em An optimized string to float conversion method, without error checking. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_gcode_command_acd40d4810d479c4913f7958d75356bbe}\label{class_gcode_command_acd40d4810d479c4913f7958d75356bbe}} 
+int \hyperlink{class_gcode_command_acd40d4810d479c4913f7958d75356bbe}{Type}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Type} & Contains the value identified the type of G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_command_a958029bcc2cc71475f99bee849182a47}\label{class_gcode_command_a958029bcc2cc71475f99bee849182a47}} 
+bool \hyperlink{class_gcode_command_a958029bcc2cc71475f99bee849182a47}{Valid} = true
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Valid} & Boolean that represenents true if this is a valid G-\/code command.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class stores a single gcode command. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_gcode_command_aefd8e6144be3153471b2ee5e5fc500de}\label{class_gcode_command_aefd8e6144be3153471b2ee5e5fc500de}} 
+\index{Gcode\+Command@{Gcode\+Command}!Gcode\+Command@{Gcode\+Command}}
+\index{Gcode\+Command@{Gcode\+Command}!Gcode\+Command@{Gcode\+Command}}
+\subsubsection{\texorpdfstring{Gcode\+Command()}{GcodeCommand()}}
+{\footnotesize\ttfamily Gcode\+Command.\+Gcode\+Command (\begin{DoxyParamCaption}\item[{string}]{text }\end{DoxyParamCaption})}
+
+
+
+This constructor will convert a string of text into a \hyperlink{class_gcode_command}{Gcode\+Command} object if a single gcode command represents the text. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The line of text representing a single gcode command. Example\+: \char`\"{}\+G1 X1.\+27 Y5.\+44 Z5.\+55 E0.\+44 F400.\+00\char`\"{}\\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_gcode_command_ad40c68e4595b030959155c66fb66f154}\label{class_gcode_command_ad40c68e4595b030959155c66fb66f154}} 
+\index{Gcode\+Command@{Gcode\+Command}!Get\+Command\+Type@{Get\+Command\+Type}}
+\index{Get\+Command\+Type@{Get\+Command\+Type}!Gcode\+Command@{Gcode\+Command}}
+\subsubsection{\texorpdfstring{Get\+Command\+Type()}{GetCommandType()}}
+{\footnotesize\ttfamily int Gcode\+Command.\+Get\+Command\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function gives back the type of \hyperlink{class_gcode_command}{Gcode\+Command}. 
+
+\begin{DoxyReturn}{Returns}
+Returns the type of \hyperlink{class_gcode_command}{Gcode\+Command}. This type determines what type of action the gcode command is.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_gcode_command_a21ddb89f360e9a2497855064cda0672a}\label{class_gcode_command_a21ddb89f360e9a2497855064cda0672a}} 
+\index{Gcode\+Command@{Gcode\+Command}!Is\+Valid@{Is\+Valid}}
+\index{Is\+Valid@{Is\+Valid}!Gcode\+Command@{Gcode\+Command}}
+\subsubsection{\texorpdfstring{Is\+Valid()}{IsValid()}}
+{\footnotesize\ttfamily bool Gcode\+Command.\+Is\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns true if a valid \hyperlink{class_gcode_command}{Gcode\+Command} has been initialized. 
+
+\begin{DoxyReturn}{Returns}
+The boolean containing if the \hyperlink{class_gcode_command}{Gcode\+Command} has been initialized if true, otherwise false.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_gcode_command_a39d602bf1f22666bc0dd2431b15214ed}\label{class_gcode_command_a39d602bf1f22666bc0dd2431b15214ed}} 
+\index{Gcode\+Command@{Gcode\+Command}!Number\+Split@{Number\+Split}}
+\index{Number\+Split@{Number\+Split}!Gcode\+Command@{Gcode\+Command}}
+\subsubsection{\texorpdfstring{Number\+Split()}{NumberSplit()}}
+{\footnotesize\ttfamily List$<$string$>$ Gcode\+Command.\+Number\+Split (\begin{DoxyParamCaption}\item[{string}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+This function converts a string to a List of floating numbers that are still in string form. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The input text that will be converted.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the list of numbers that were split from the input text.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_gcode_command_a7e60f42effcf4a0053d812e16ffa3895}\label{class_gcode_command_a7e60f42effcf4a0053d812e16ffa3895}} 
+\index{Gcode\+Command@{Gcode\+Command}!String\+To\+Float@{String\+To\+Float}}
+\index{String\+To\+Float@{String\+To\+Float}!Gcode\+Command@{Gcode\+Command}}
+\subsubsection{\texorpdfstring{String\+To\+Float()}{StringToFloat()}}
+{\footnotesize\ttfamily static float Gcode\+Command.\+String\+To\+Float (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+An optimized string to float conversion method, without error checking. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The string that will be converted to the float.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the resulting float from the string input.
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/Gcode\+Command.\+cs\end{DoxyCompactItemize}

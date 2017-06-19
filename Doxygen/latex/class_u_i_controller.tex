@@ -1,0 +1,131 @@
+\hypertarget{class_u_i_controller}{}\section{U\+I\+Controller Class Reference}
+\label{class_u_i_controller}\index{U\+I\+Controller@{U\+I\+Controller}}
+
+
+This class updates the values that are displayed in an printer process. Things like details about the printer (e.\+g. print needle location, temperature) and simulation details (e.\+g. print time speed) are updated here.  
+
+
+Inheritance diagram for U\+I\+Controller\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_u_i_controller}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_u_i_controller_a676b3b972c33885db4565ee43f23e459}\label{class_u_i_controller_a676b3b972c33885db4565ee43f23e459}} 
+void {\bfseries Start} ()
+\item 
+\mbox{\Hypertarget{class_u_i_controller_adc5b0854a26bbcd71cc33274960bd0a9}\label{class_u_i_controller_adc5b0854a26bbcd71cc33274960bd0a9}} 
+void {\bfseries Update} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_u_i_controller_aac3690fd6f0e8307161343244e8ff125}\label{class_u_i_controller_aac3690fd6f0e8307161343244e8ff125}} 
+\hyperlink{class_printer}{Printer} \hyperlink{class_u_i_controller_aac3690fd6f0e8307161343244e8ff125}{Printer}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_printer}{Printer}} & Object of the \hyperlink{class_printer}{Printer} that is used to request alot of settings of the printer (e.\+g. location, temperature).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a1e06990406e89de41c6c8295ecd7870b}\label{class_u_i_controller_a1e06990406e89de41c6c8295ecd7870b}} 
+Game\+Object \hyperlink{class_u_i_controller_a1e06990406e89de41c6c8295ecd7870b}{Printer\+Details}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Printer\+Details} & Game\+Object containing the textfields on the screen displaying the details of the printer (e.\+g. printer location, feedrate, bed height).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a83aa464d971eff4f74cfb5891661693d}\label{class_u_i_controller_a83aa464d971eff4f74cfb5891661693d}} 
+Text \hyperlink{class_u_i_controller_a83aa464d971eff4f74cfb5891661693d}{Extruder\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Extruder\+Temperature} & The text field for displaying the current extruder temperature.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a680c68becba759ccd4b587406ab1c394}\label{class_u_i_controller_a680c68becba759ccd4b587406ab1c394}} 
+Text \hyperlink{class_u_i_controller_a680c68becba759ccd4b587406ab1c394}{Bed\+Temperature}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Bed\+Temperature} & The text field for displaying the current bed temperature.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a994f6e8efe28969227da85c0d0be9707}\label{class_u_i_controller_a994f6e8efe28969227da85c0d0be9707}} 
+Text \hyperlink{class_u_i_controller_a994f6e8efe28969227da85c0d0be9707}{Feed\+Rate}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Feed\+Rate} & The text field for displaying the current feedrate.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a5575def461bc517ce48b0de312c4ebd7}\label{class_u_i_controller_a5575def461bc517ce48b0de312c4ebd7}} 
+Text \hyperlink{class_u_i_controller_a5575def461bc517ce48b0de312c4ebd7}{Extrusion\+Position}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Extrusion\+Position} & The text field for displaying the current position of the extruder.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_ac44230ef75e3b296750801393477de69}\label{class_u_i_controller_ac44230ef75e3b296750801393477de69}} 
+Text \hyperlink{class_u_i_controller_ac44230ef75e3b296750801393477de69}{Extruder\+PositionX}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Extruder\+PositionX} & The text field for displaying the current x location of the print needle.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a504b3ba6c916c43baba0df947dae89b5}\label{class_u_i_controller_a504b3ba6c916c43baba0df947dae89b5}} 
+Text \hyperlink{class_u_i_controller_a504b3ba6c916c43baba0df947dae89b5}{Extruder\+PositionY}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Extruder\+PositionY} & The text field for displaying the current y location of the print needle.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a49baeb13cde303094921023dbaa34910}\label{class_u_i_controller_a49baeb13cde303094921023dbaa34910}} 
+Text \hyperlink{class_u_i_controller_a49baeb13cde303094921023dbaa34910}{Bed\+Height}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Bed\+Height} & The text field for displaying the current bed height.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a08a3a7a00bc7bac76ac726a3735532eb}\label{class_u_i_controller_a08a3a7a00bc7bac76ac726a3735532eb}} 
+Game\+Object \hyperlink{class_u_i_controller_a08a3a7a00bc7bac76ac726a3735532eb}{Simulation\+Details}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Simulation\+Details} & Game\+Object containing the textfields on the screen displaying the details of the simulation (e.\+g. filename, time speed of simulation).\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a2f5c3c69e83435b9b4c3a9cb5f3a75af}\label{class_u_i_controller_a2f5c3c69e83435b9b4c3a9cb5f3a75af}} 
+Text \hyperlink{class_u_i_controller_a2f5c3c69e83435b9b4c3a9cb5f3a75af}{Time\+Multiplier}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Time\+Multiplier} & The text field for displaying the current time speed of the simulation.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_u_i_controller_a30bd00985e2665fc0f4cda1a41df4ea4}\label{class_u_i_controller_a30bd00985e2665fc0f4cda1a41df4ea4}} 
+Text \hyperlink{class_u_i_controller_a30bd00985e2665fc0f4cda1a41df4ea4}{File}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em File} & The text field for displaying the current selected file to print from.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class updates the values that are displayed in an printer process. Things like details about the printer (e.\+g. print needle location, temperature) and simulation details (e.\+g. print time speed) are updated here. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/U\+I\+Controller.\+cs\end{DoxyCompactItemize}

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     This class updates the extruder needle location in the scene.
+/// </summary>
 public class ExtruderUpdater : MonoBehaviour {
-
+    /// <param name="Printer">Object of the Printer that is used to request the printer needle location.</param>
     private Printer Printer;
 
     void Awake() {

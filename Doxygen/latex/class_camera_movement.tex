@@ -1,0 +1,86 @@
+\hypertarget{class_camera_movement}{}\section{Camera\+Movement Class Reference}
+\label{class_camera_movement}\index{Camera\+Movement@{Camera\+Movement}}
+
+
+This class makes the camera draggable, rotatable and zoomable in the scene.  
+
+
+Inheritance diagram for Camera\+Movement\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_camera_movement}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_camera_movement_ab0c3a10c369ffb355282c53bf8e25fc1}\label{class_camera_movement_ab0c3a10c369ffb355282c53bf8e25fc1}} 
+float \hyperlink{class_camera_movement_ab0c3a10c369ffb355282c53bf8e25fc1}{Scroll\+Speed} = 10f
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Scroll\+Speed} & The speed at which scrolling/zooming in/out is executed when scrolling with the left mouse wheel.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_camera_movement_ac23a09cdd06272b43e5090681e09095a}\label{class_camera_movement_ac23a09cdd06272b43e5090681e09095a}} 
+float \hyperlink{class_camera_movement_ac23a09cdd06272b43e5090681e09095a}{Move\+Speed} = 0.\+1f
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Move\+Speed} & The speed of the camera moving left/right and up/down when dragging with the move mouse button.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_camera_movement_a0f6b3942fca01de3080b2728274ac102}\label{class_camera_movement_a0f6b3942fca01de3080b2728274ac102}} 
+float \hyperlink{class_camera_movement_a0f6b3942fca01de3080b2728274ac102}{Rotate\+Speed} = 0.\+1f
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Rotate\+Speed} & The speed of the camera rotating when dragging with the rotate mouse button.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_camera_movement_a3d5bf0407152d0e16efafa655bfc15e9}\label{class_camera_movement_a3d5bf0407152d0e16efafa655bfc15e9}} 
+void {\bfseries Start} ()
+\item 
+\mbox{\Hypertarget{class_camera_movement_a6d70b582440500fff98506ebd3e9050e}\label{class_camera_movement_a6d70b582440500fff98506ebd3e9050e}} 
+void {\bfseries Update} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_camera_movement_a68e2584501a6aaca0f1f4612d919da83}\label{class_camera_movement_a68e2584501a6aaca0f1f4612d919da83}} 
+Vector3 \hyperlink{class_camera_movement_a68e2584501a6aaca0f1f4612d919da83}{Previous\+Mouse\+Position}
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Previous\+Mouse\+Position} & Remembers the last mouse position since the last Update.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_camera_movement_ae0a5e90a6fa1d305f2412d88e2bf2e35}\label{class_camera_movement_ae0a5e90a6fa1d305f2412d88e2bf2e35}} 
+float \hyperlink{class_camera_movement_ae0a5e90a6fa1d305f2412d88e2bf2e35}{Yaw} = 0f
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Yaw} & The yaw orientation of the camera.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_camera_movement_adbf4bd21e962dbba99fdf24c85fc2665}\label{class_camera_movement_adbf4bd21e962dbba99fdf24c85fc2665}} 
+float \hyperlink{class_camera_movement_adbf4bd21e962dbba99fdf24c85fc2665}{Pitch} = 0f
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Pitch} & The pitch orientation of the camera.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class makes the camera draggable, rotatable and zoomable in the scene. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/Camera\+Movement.\+cs\end{DoxyCompactItemize}

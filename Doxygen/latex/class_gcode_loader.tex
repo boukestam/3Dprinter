@@ -1,0 +1,146 @@
+\hypertarget{class_gcode_loader}{}\section{Gcode\+Loader Class Reference}
+\label{class_gcode_loader}\index{Gcode\+Loader@{Gcode\+Loader}}
+
+
+The \hyperlink{class_gcode_loader}{Gcode\+Loader} loads gcode from a file into memory. It is also used to loop through the gcode commands to let the \hyperlink{class_printer}{Printer} class execute the commands.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_gcode_loader_a295f2e6de27384942c01024adf7a0615}{Execute\+Next\+Command} (\hyperlink{class_printer}{Printer} printer)
+\begin{DoxyCompactList}\small\item\em Handles moving to the new Gcode command and then calls another function to execute the command for the \hyperlink{class_printer}{Printer} object. \end{DoxyCompactList}\item 
+bool \hyperlink{class_gcode_loader_a6b8aedf9e1c0b90d931626697bc9c3de}{End\+Of\+Gcode} ()
+\begin{DoxyCompactList}\small\item\em Returns true if the end of the gcode has been reached. \end{DoxyCompactList}\item 
+void \hyperlink{class_gcode_loader_a921de7da9cc2e377a52977f30f8c1204}{Load} (string filename)
+\begin{DoxyCompactList}\small\item\em Loads all gcode from a file into memory and links all variables in the gcode into a structured class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_gcode_loader_a5c5558ee51ad2dc684951b4e69e95112}\label{class_gcode_loader_a5c5558ee51ad2dc684951b4e69e95112}} 
+bool \hyperlink{class_gcode_loader_a5c5558ee51ad2dc684951b4e69e95112}{Model\+Loaded} = false
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Model\+Loaded} & Boolean representing if a model has already been loaded into the gcode.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_gcode_loader_a82cfb2c8e208446db42b8d570bf9bc85}{Execute\+Command} (\hyperlink{class_gcode_command}{Gcode\+Command} command, \hyperlink{class_printer}{Printer} printer)
+\begin{DoxyCompactList}\small\item\em Determines the command to execute and then calls the matching function with parameters to the \hyperlink{class_printer}{Printer} object. \end{DoxyCompactList}\item 
+void \hyperlink{class_gcode_loader_a4022243922bb02571c83a4f0897bc45f}{Load} (string filename, List$<$ \hyperlink{class_gcode_command}{Gcode\+Command} $>$ new\+Commands)
+\begin{DoxyCompactList}\small\item\em Loads all gcode from a file into memory and links all variables in the gcode into a structured class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_gcode_loader_a61536e92fe75a3387758adb23c915dd7}\label{class_gcode_loader_a61536e92fe75a3387758adb23c915dd7}} 
+List$<$ \hyperlink{class_gcode_command}{Gcode\+Command} $>$ \hyperlink{class_gcode_loader_a61536e92fe75a3387758adb23c915dd7}{Commands} = new List$<$\hyperlink{class_gcode_command}{Gcode\+Command}$>$()
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Commands} & A list containing all gcode commands.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_gcode_loader_a4d184919835f2dfb469887d83b464c82}\label{class_gcode_loader_a4d184919835f2dfb469887d83b464c82}} 
+int \hyperlink{class_gcode_loader_a4d184919835f2dfb469887d83b464c82}{Commands\+Index} = 0
+\begin{DoxyCompactList}\small\item\em 
+\begin{DoxyParams}{Parameters}
+{\em Commands\+Index} & The current index of the last read gcode command. Used for the Next\+Gcode\+Command function.\\
+\hline
+\end{DoxyParams}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{class_gcode_loader}{Gcode\+Loader} loads gcode from a file into memory. It is also used to loop through the gcode commands to let the \hyperlink{class_printer}{Printer} class execute the commands. 
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_gcode_loader_a6b8aedf9e1c0b90d931626697bc9c3de}\label{class_gcode_loader_a6b8aedf9e1c0b90d931626697bc9c3de}} 
+\index{Gcode\+Loader@{Gcode\+Loader}!End\+Of\+Gcode@{End\+Of\+Gcode}}
+\index{End\+Of\+Gcode@{End\+Of\+Gcode}!Gcode\+Loader@{Gcode\+Loader}}
+\subsubsection{\texorpdfstring{End\+Of\+Gcode()}{EndOfGcode()}}
+{\footnotesize\ttfamily bool Gcode\+Loader.\+End\+Of\+Gcode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns true if the end of the gcode has been reached. 
+
+\begin{DoxyReturn}{Returns}
+Returns true if the \hyperlink{class_gcode_loader}{Gcode\+Loader} is at the end of the G-\/code file. Returns true otherwise.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_gcode_loader_a82cfb2c8e208446db42b8d570bf9bc85}\label{class_gcode_loader_a82cfb2c8e208446db42b8d570bf9bc85}} 
+\index{Gcode\+Loader@{Gcode\+Loader}!Execute\+Command@{Execute\+Command}}
+\index{Execute\+Command@{Execute\+Command}!Gcode\+Loader@{Gcode\+Loader}}
+\subsubsection{\texorpdfstring{Execute\+Command()}{ExecuteCommand()}}
+{\footnotesize\ttfamily void Gcode\+Loader.\+Execute\+Command (\begin{DoxyParamCaption}\item[{\hyperlink{class_gcode_command}{Gcode\+Command}}]{command,  }\item[{\hyperlink{class_printer}{Printer}}]{printer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Determines the command to execute and then calls the matching function with parameters to the \hyperlink{class_printer}{Printer} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The command object that will contain all information of the command.\\
+\hline
+{\em printer} & The printer object that requested a new command.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_gcode_loader_a295f2e6de27384942c01024adf7a0615}\label{class_gcode_loader_a295f2e6de27384942c01024adf7a0615}} 
+\index{Gcode\+Loader@{Gcode\+Loader}!Execute\+Next\+Command@{Execute\+Next\+Command}}
+\index{Execute\+Next\+Command@{Execute\+Next\+Command}!Gcode\+Loader@{Gcode\+Loader}}
+\subsubsection{\texorpdfstring{Execute\+Next\+Command()}{ExecuteNextCommand()}}
+{\footnotesize\ttfamily bool Gcode\+Loader.\+Execute\+Next\+Command (\begin{DoxyParamCaption}\item[{\hyperlink{class_printer}{Printer}}]{printer }\end{DoxyParamCaption})}
+
+
+
+Handles moving to the new Gcode command and then calls another function to execute the command for the \hyperlink{class_printer}{Printer} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em printer} & The printer object that requested a new command.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false if end of G-\/code file or no model has been loaded. Returns true otherwise.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_gcode_loader_a921de7da9cc2e377a52977f30f8c1204}\label{class_gcode_loader_a921de7da9cc2e377a52977f30f8c1204}} 
+\index{Gcode\+Loader@{Gcode\+Loader}!Load@{Load}}
+\index{Load@{Load}!Gcode\+Loader@{Gcode\+Loader}}
+\subsubsection{\texorpdfstring{Load()}{Load()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Gcode\+Loader.\+Load (\begin{DoxyParamCaption}\item[{string}]{filename }\end{DoxyParamCaption})}
+
+
+
+Loads all gcode from a file into memory and links all variables in the gcode into a structured class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file where to load the gcode from.\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_gcode_loader_a4022243922bb02571c83a4f0897bc45f}\label{class_gcode_loader_a4022243922bb02571c83a4f0897bc45f}} 
+\index{Gcode\+Loader@{Gcode\+Loader}!Load@{Load}}
+\index{Load@{Load}!Gcode\+Loader@{Gcode\+Loader}}
+\subsubsection{\texorpdfstring{Load()}{Load()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Gcode\+Loader.\+Load (\begin{DoxyParamCaption}\item[{string}]{filename,  }\item[{List$<$ \hyperlink{class_gcode_command}{Gcode\+Command} $>$}]{new\+Commands }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Loads all gcode from a file into memory and links all variables in the gcode into a structured class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file where to load the gcode from.\\
+\hline
+{\em new\+Commands} & The list where all gcode commands will be stored in.\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Mission\+Mankind/\+Desktop/\+Scripts/Gcode\+Loader.\+cs\end{DoxyCompactItemize}

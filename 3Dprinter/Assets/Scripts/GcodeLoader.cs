@@ -24,6 +24,7 @@ public class GcodeLoader {
     ///     Handles moving to the new Gcode command and then calls another function to execute the command for the Printer object.
     /// </summary>
     /// <param name="printer">The printer object that requested a new command.</param>
+    /// <returns>Returns false if end of G-code file or no model has been loaded. Returns true otherwise.</returns>
 	public bool ExecuteNextCommand(Printer printer) {
         if (EndOfGcode() || ModelLoaded == false) {
             return false;
@@ -35,6 +36,7 @@ public class GcodeLoader {
     /// <summary>
     ///     Returns true if the end of the gcode has been reached.
     /// </summary>
+    /// <returns>Returns true if the GcodeLoader is at the end of the G-code file. Returns true otherwise.</returns>
     public bool EndOfGcode() {
         return CommandsIndex >= Commands.Count;
     }
@@ -43,7 +45,7 @@ public class GcodeLoader {
     ///     Determines the command to execute and then calls the matching function with parameters to the Printer object.
     /// </summary>
     /// <param name="command">The command object that will contain all information of the command.</param>
-    /// // <param name="printer">The printer object that requested a new command.</param>
+    /// <param name="printer">The printer object that requested a new command.</param>
     private void ExecuteCommand(GcodeCommand command, Printer printer) {
         //string startCommand = commando[0].Key.ToString() + (int)commando[0].Value;
         switch (command.GetCommandType()) {
@@ -54,19 +56,11 @@ public class GcodeLoader {
             case GMcodes.HomeAxis:
                 printer.HomeAllAxis();
                 break;
-            case GMcodes.SetAbsolute:
-                break;
-            case GMcodes.SetCurrentPosition:
-                break;
-            case GMcodes.FanOn:
-                break;
-            case GMcodes.FanOff:
-                break;
-            case GMcodes.SetExtruderTemperature1:
+            case GMcodes.SetExtruderTemperature1: // Which value is different for different type of printers.
             case GMcodes.SetExtruderTemperature2:
                 printer.SetExtruderTemperature(command.S);
                 break;
-            case GMcodes.SetBedTemperature1:
+            case GMcodes.SetBedTemperature1: // Which value is different for different type of printers.
             case GMcodes.SetBedTemperature2:
                 printer.SetBedTemperature(command.S);
                 break;

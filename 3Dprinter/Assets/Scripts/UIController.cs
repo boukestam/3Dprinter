@@ -3,24 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+///     This class updates the values that are displayed in an printer process. 
+///     Things like details about the printer (e.g. print needle location, temperature) and simulation details (e.g. print time speed) are updated here.
+/// </summary>
 public class UIController : MonoBehaviour {
 
+    /// <param name="Printer">Object of the Printer that is used to request alot of settings of the printer (e.g. location, temperature).</param>
     private Printer Printer;
 
+    /// <param name="PrinterDetails">GameObject containing the textfields on the screen displaying the details of the printer (e.g. printer location, feedrate, bed height).</param>
     private GameObject PrinterDetails;
+    /// <param name="ExtruderTemperature">The text field for displaying the current extruder temperature.</param>
     private Text ExtruderTemperature;
+    /// <param name="BedTemperature">The text field for displaying the current bed temperature.</param>
     private Text BedTemperature;
+    /// <param name="FeedRate">The text field for displaying the current feedrate.</param>
     private Text FeedRate;
+    /// <param name="ExtrusionPosition">The text field for displaying the current position of the extruder.</param>
     private Text ExtrusionPosition;
+    /// <param name="ExtruderPositionX">The text field for displaying the current x location of the print needle.</param>
     private Text ExtruderPositionX;
+    /// <param name="ExtruderPositionY">The text field for displaying the current y location of the print needle.</param>
     private Text ExtruderPositionY;
+    /// <param name="BedHeight">The text field for displaying the current bed height.</param>
     private Text BedHeight;
-    
+
+    /// <param name="SimulationDetails">GameObject containing the textfields on the screen displaying the details of the simulation (e.g. filename, time speed of simulation).</param>
     GameObject SimulationDetails;
+    /// <param name="TimeMultiplier">The text field for displaying the current time speed of the simulation.</param>
     private Text TimeMultiplier;
+    /// <param name="File">The text field for displaying the current selected file to print from.</param>
     private Text File;
 
-    // Use this for initialization
     void Start () {
         Printer = (Printer)GameObject.Find("Printer").GetComponent("Printer");
 
@@ -40,7 +55,6 @@ public class UIController : MonoBehaviour {
         File = SimulationDetails.transform.FindChild("FileData").gameObject.GetComponent<Text>();        
     }
 
-    // Update is called once per frame
     void Update () {
         string format = "0.0";
         ExtruderTemperature.text = Printer.CurrentExtruderTemperature.ToString(format) + " °C";
